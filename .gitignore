@@ -1,0 +1,8 @@
+# Backup files
+*.backup
+
+# Local Serena project index
+.serena/
+
+# macOS
+.DS_Store
