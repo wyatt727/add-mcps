@@ -1431,9 +1431,9 @@ mcp__playwright__browser_evaluate(
 - Select/switch tabs
 
 **🖥️ browser_console_messages** - Get console logs
-- All messages or errors only
-- Useful for debugging
-- Monitor JavaScript errors
+- Use `level` parameter: "error", "warning", "info", "debug"
+- Each level includes more severe levels (e.g., "info" includes errors and warnings)
+- Useful for debugging and monitoring JavaScript errors
 
 **🔔 browser_handle_dialog** - Handle popups
 - Accept or dismiss alerts/confirms
