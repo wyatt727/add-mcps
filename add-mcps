@@ -286,20 +286,20 @@ add_mcp_server() {
     fi
 }
 
-# Function to check if CLAUDE.md content already exists in target file
-claude_content_exists() {
+# Function to check if TOOL_USAGE.md content already exists in target file
+tool_usage_content_exists() {
     local target_file="$1"
-    
+
     if [[ ! -f "$target_file" ]]; then
         return 1  # File doesn't exist, content not present
     fi
-    
+
     # Check if the file contains a marker that indicates our content was added
-    # We'll use the first unique line from CLAUDE.md as a marker
-    if grep -q "## 🔍 OPTIMAL TOOL USAGE - RIPGREP & SERENA MCP" "$target_file" 2>/dev/null; then
+    # We'll use the first unique line from TOOL_USAGE.md as a marker
+    if grep -q "## 🔍 OPTIMAL TOOL USAGE - BUILT-IN TOOLS, GLOB, GREP & SERENA MCP" "$target_file" 2>/dev/null; then
         return 0  # Content already exists
     fi
-    
+
     return 1  # Content doesn't exist
 }
 
