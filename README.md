@@ -86,7 +86,7 @@ Options:
 add-mcps
 
 # Install servers and copy docs/agents
-add-mcps --add-agents --add-claude
+add-mcps --add-agents --add-tools
 
 # Install only specific servers
 add-mcps --only exa,context7
@@ -94,17 +94,17 @@ add-mcps --only exa,context7
 # Skip serena and playwright
 add-mcps --disable serena,playwright
 
-# Install servers and copy agents only (no CLAUDE.md)
+# Install servers and copy agents only (no TOOL_USAGE.md)
 add-mcps --add-agents
 
-# Install servers and copy CLAUDE.md only (no agents)
-add-mcps --add-claude
+# Install servers and copy TOOL_USAGE.md only (no agents)
+add-mcps --add-tools
 
 # Force reinstall all servers
 add-mcps --force
 
 # Force reinstall and copy documentation
-add-mcps --force --add-claude --add-agents
+add-mcps --force --add-tools --add-agents
 
 # Run diagnostics
 add-mcps --diagnose
