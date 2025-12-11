@@ -1728,7 +1728,7 @@ The optimal workflow remains token-conscious:
 4. **Context7**: Use `topic` parameter to narrow scope
 5. **Exa**: Limit `numResults` to 3-7 unless you need more
 6. **Serena**: Use `include_body=False` first, then selectively read bodies
-7. **rg**: Use file type filters (`-t python`) to reduce noise
+7. **Grep**: Use `type` parameter to filter by file type (e.g., `type="py"`)
 
 ### Updated Summary: The Six-Layer Stack
 
