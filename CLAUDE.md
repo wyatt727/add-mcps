@@ -1584,7 +1584,7 @@ mcp__playwright__browser_fill_form(fields=[...])
 ## 🎯 UPDATED COMBINED STRATEGY
 
 ### The Complete Toolkit - Six Layers
-- **rg (ripgrep)** → Fast text-based discovery in YOUR codebase
+- **Grep/Glob (built-in tools)** → Fast text-based discovery in YOUR codebase
 - **Serena MCP** → Semantic understanding of YOUR code structure
 - **Context7 MCP** → Official library documentation (external knowledge)
 - **Exa MCP** → Web research, papers, examples (external knowledge)
