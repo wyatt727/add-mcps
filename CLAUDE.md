@@ -1507,8 +1507,8 @@ mcp__playwright__browser_click(element="Login", ref="ref-123")
 # 8. Check network traffic
 mcp__playwright__browser_network_requests()
 
-# 9. Get console errors
-mcp__playwright__browser_console_messages(onlyErrors=true)
+# 9. Get console errors (use level="error" to filter)
+mcp__playwright__browser_console_messages(level="error")
 
 # Browser stays open for continued work!
 ```
