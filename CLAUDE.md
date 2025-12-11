@@ -1,13 +1,14 @@
-## 🔍 OPTIMAL TOOL USAGE - RIPGREP & SERENA MCP
+## 🔍 OPTIMAL TOOL USAGE - BUILT-IN TOOLS, GLOB, GREP & SERENA MCP
 
-### Core Principles - SPEED FIRST
-- **SPEED IS PRIORITY #1** - get answers in fewest steps, not fewest tokens
-- **NEVER use grep - ONLY use ripgrep (rg)** - use bash `rg` commands directly
-- **Ripgrep (rg) is BETTER than internal search functions** - always prefer it over built-in search
-- **Use rg with line numbers (-n) + context (-C) by default** - see location AND surrounding code immediately
-- **Parallel search everything** - run multiple rg commands in one message whenever possible
-- **Smart file size decisions** - small files (<500 lines): just read them, medium (500-2000): rg then read sections, large (>2000): use Serena for code
-- **Combine strategically: rg → Read/Serena → Edit** - discover, understand, then modify
+### Core Principles - EFFICIENCY FIRST
+- **USE BUILT-IN TOOLS** - Claude Code has optimized Grep, Glob, and Read tools that should be preferred
+- **NEVER use bash grep/rg/find/cat** - use the built-in Grep, Glob, and Read tools instead
+- **Built-in Grep tool is optimized** - has proper permissions, supports regex, context lines, and multiple output modes
+- **Built-in Glob tool for file patterns** - use for finding files by name patterns (e.g., `**/*.js`)
+- **Parallel tool calls** - make multiple Grep/Glob/Read calls in a single message for parallel execution
+- **Smart file size decisions** - small files (<500 lines): just Read them, medium (500-2000): Grep then Read sections, large (>2000): use Serena for code
+- **Combine strategically: Grep/Glob → Read/Serena → Edit** - discover, understand, then modify
+- **For open-ended exploration** - use Task tool with `subagent_type=Explore` instead of manual searching
 
 ### File Size Decision Tree (Speed-Optimized)
 
