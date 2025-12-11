@@ -32,7 +32,7 @@ sudo ln -s ~/.add-mcps/add-mcps /usr/local/bin/add-mcps
 
 Running `install.sh` creates `~/.add-mcps/` with:
 - `add-mcps` - The main script
-- `CLAUDE.md` - Tool usage documentation (appended to project's CLAUDE.md)
+- `TOOL_USAGE.md` - Tool usage documentation (copied to project's docs/TOOL_USAGE.md)
 - `AGENTS.md` - Agent system documentation
 - `agents/` - Directory containing all agent files:
   - `diagnostic-agent.md`
