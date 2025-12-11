@@ -125,5 +125,5 @@ If you see "add-mcps installation not found":
 
 If source files are missing:
 - Ensure you're in the add-mcps repository directory when running `install.sh`
-- Check that `CLAUDE.md`, `AGENTS.md`, and `.claude/agents/` exist in the repo
+- Check that `TOOL_USAGE.md`, `AGENTS.md`, and `.claude/agents/` exist in the repo
 
