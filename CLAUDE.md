@@ -551,40 +551,47 @@ mcp__context7__get-library-docs(
 - ✅ **DO** make topics more specific and targeted
 
 **Optimal Context7 Usage:**
-```bash
+```
 # Step 1: Resolve library name to Context7 ID (REQUIRED)
 mcp__context7__resolve-library-id(
     libraryName="react query"
 )
 # Returns: /tanstack/query or similar
 
-# Step 2: Fetch documentation with optional topic focus
+# Step 2: Fetch documentation with optional topic and mode
 mcp__context7__get-library-docs(
     context7CompatibleLibraryID="/tanstack/query",
     topic="hooks",           # Optional: focus on specific topic
-    tokens=5000             # Optional: control documentation length
+    mode="code"              # Optional: "code" for API/examples (default), "info" for conceptual guides
 )
 
 # Version-specific query (if user provides version)
 mcp__context7__get-library-docs(
     context7CompatibleLibraryID="/vercel/next.js/v15.0.0",
-    topic="server actions"
+    topic="server actions",
+    mode="code"
 )
 
-# Quick reference (lower tokens)
+# Conceptual understanding (use mode="info")
 mcp__context7__get-library-docs(
     context7CompatibleLibraryID="/supabase/supabase",
     topic="authentication",
-    tokens=3000
+    mode="info"              # For conceptual guides and narrative information
 )
 
-# Comprehensive understanding (higher tokens)
+# Pagination for large doc sets
 mcp__context7__get-library-docs(
     context7CompatibleLibraryID="/mongodb/docs",
     topic="aggregation pipeline",
-    tokens=8000
+    page=1                   # Start at page 1, can go up to 10
 )
 ```
+
+**Available Parameters for get-library-docs:**
+- `context7CompatibleLibraryID` (required): Library ID from resolve-library-id
+- `topic` (optional): Focus on specific topic
+- `mode` (optional): `"code"` for API references/examples (default), `"info"` for conceptual guides
+- `page` (optional): Page number 1-10 for pagination
 
 ### Context7 Anti-Patterns to AVOID
 ❌ **Bad:** Skipping resolve-library-id
