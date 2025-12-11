@@ -691,9 +691,9 @@ mcp__context7__get-library-docs(
 
 ❌ **Don't use Exa for:**
 - Internal codebase exploration (use Serena instead)
-- Text pattern matching in your files (use rg instead)
+- Text pattern matching in your files (use Grep tool instead)
 - Official library documentation (use Context7 instead)
-- Simple keyword searches in your code (use rg instead)
+- Simple keyword searches in your code (use Grep tool instead)
 
 ⚠️ **CRITICAL: Tool Selection Strategy**
 - **Only enable the 2-3 Exa tools you actually need** for your project
