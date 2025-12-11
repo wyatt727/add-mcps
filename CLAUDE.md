@@ -321,13 +321,13 @@ Grep(pattern="newFunctionName", path="src/", output_mode="content", -n=true)
 Grep(pattern="oldFunctionName", path="src/", output_mode="content", -n=true)  # Should return nothing
 ```
 
-### Line-Based Navigation (Speed Technique)
+### Line-Based Navigation Technique
 
-**Use rg line numbers to navigate files efficiently:**
+**Use Grep line numbers to navigate files efficiently:**
 
-```bash
+```
 # Step 1: Get line numbers for multiple sections at once
-rg -n "^## " CLAUDE.md
+Grep(pattern="^## ", path="CLAUDE.md", output_mode="content", -n=true)
 # Returns all markdown headers with line numbers:
 # 1:## Section 1
 # 150:## Section 2
@@ -338,8 +338,8 @@ rg -n "^## " CLAUDE.md
 Read(file_path="CLAUDE.md", offset=420, limit=100)  # Read section 3
 Read(file_path="CLAUDE.md", offset=800, limit=100)  # Read section 4
 
-# Step 3: After editing, verify with rg
-rg -n -C 2 "pattern_you_added" CLAUDE.md
+# Step 3: After editing, verify with Grep
+Grep(pattern="pattern_you_added", path="CLAUDE.md", output_mode="content", -n=true, -C=2)
 ```
 
 ### Anti-Patterns to AVOID (Speed-Killers)
