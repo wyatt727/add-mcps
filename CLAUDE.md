@@ -342,79 +342,109 @@ Read(file_path="CLAUDE.md", offset=800, limit=100)  # Read section 4
 Grep(pattern="pattern_you_added", path="CLAUDE.md", output_mode="content", -n=true, -C=2)
 ```
 
-### Anti-Patterns to AVOID (Speed-Killers)
+### Anti-Patterns to AVOID
 
 ❌ **Bad:** Reading entire large files when you only need a section
-```bash
+```
 # DON'T DO THIS for 5000-line files
-Read(file_path="src/massive-app.js")  # Wastes time
+Read(file_path="src/massive-app.js")  # Wastes tokens
 ```
 
-✅ **Good:** Use rg to find section, then read that section
-```bash
+✅ **Good:** Use Grep to find section, then read that section
+```
 # DO THIS
-rg -n "function needThisFunction" src/massive-app.js  # Returns line 2847
+Grep(pattern="function needThisFunction", path="src/massive-app.js", output_mode="content", -n=true)
+# Returns line 2847
 Read(file_path="src/massive-app.js", offset=2845, limit=50)
 ```
 
 ❌ **Bad:** Sequential searches (multiple messages)
-```bash
+```
 # DON'T DO THIS - 3 separate messages
-Message 1: rg "pattern1"
-Message 2: rg "pattern2"
-Message 3: rg "pattern3"
+Message 1: Grep(pattern="pattern1", ...)
+Message 2: Grep(pattern="pattern2", ...)
+Message 3: Grep(pattern="pattern3", ...)
 ```
 
-✅ **Good:** Parallel searches (one message)
-```bash
-# DO THIS - one message with all searches
-rg -n "pattern1" src/ && rg -n "pattern2" src/ && rg -n "pattern3" src/
+✅ **Good:** Parallel searches (multiple tool calls in ONE message)
+```
+# DO THIS - one message with multiple tool calls (true parallel)
+Grep(pattern="pattern1", path="src/", output_mode="content", -n=true)
+Grep(pattern="pattern2", path="src/", output_mode="content", -n=true)
+Grep(pattern="pattern3", path="src/", output_mode="content", -n=true)
 ```
 
-❌ **Bad:** Using rg on small files before reading
-```bash
+❌ **Bad:** Using bash grep/rg commands
+```
+# DON'T DO THIS - use built-in tools instead
+rg -n "pattern" file.js
+grep "pattern" file.js
+```
+
+✅ **Good:** Use the built-in Grep tool
+```
+# DO THIS
+Grep(pattern="pattern", path="file.js", output_mode="content", -n=true, -C=5)
+```
+
+❌ **Bad:** Searching small files before reading
+```
 # DON'T DO THIS for files <500 lines
-rg -n "function" small-file.js  # Line 45
+Grep(pattern="function", path="small-file.js", ...)
 Read(file_path="small-file.js", offset=43, limit=20)
 # Two steps when one would do!
 ```
 
 ✅ **Good:** Just read small files directly
-```bash
+```
 # DO THIS
 Read(file_path="small-file.js")  # One step!
 ```
 
-❌ **Bad:** Using rg without line numbers or context
-```bash
+❌ **Bad:** Using Grep without line numbers or context
+```
 # DON'T DO THIS - missing context
-rg "pattern" file.js
-# You get matches but no line numbers or surrounding code
+Grep(pattern="pattern", path="file.js")
+# Default output_mode is "files_with_matches" - no content!
 ```
 
-✅ **Good:** Always use -n and -C for maximum info
-```bash
+✅ **Good:** Always use output_mode="content" with -n and -C for maximum info
+```
 # DO THIS
-rg -n -C 5 "pattern" file.js
+Grep(pattern="pattern", path="file.js", output_mode="content", -n=true, -C=5)
 # Get line numbers AND context in one shot
 ```
 
 ❌ **Bad:** Using Serena on small/medium code files
-```bash
+```
 # DON'T DO THIS for 300-line files
 mcp__serena__get_symbols_overview(relative_path="small.js")
 mcp__serena__find_symbol(name_path="func", relative_path="small.js")
 # Two steps when one would do!
 ```
 
-✅ **Good:** Just read small files, use rg for medium files
-```bash
+✅ **Good:** Just read small files, use Grep for medium files
+```
 # DO THIS
 Read(file_path="small.js")  # <500 lines: just read it
 
 # Or for medium files
-rg -n -C 10 "function func" medium.js  # Get location + context
+Grep(pattern="function func", path="medium.js", output_mode="content", -n=true, -C=10)
 Read(file_path="medium.js", offset=240, limit=60)  # Read relevant section
+```
+
+❌ **Bad:** Editing without reading first
+```
+# DON'T DO THIS - Edit requires prior Read
+Edit(file_path="src/file.js", old_string="...", new_string="...")
+# Will fail if file wasn't read in this conversation!
+```
+
+✅ **Good:** Always Read before Edit
+```
+# DO THIS
+Read(file_path="src/file.js")  # Read first
+Edit(file_path="src/file.js", old_string="...", new_string="...")  # Then edit
 ```
 
 ### Summary: Speed-First Approach
