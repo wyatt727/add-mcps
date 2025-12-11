@@ -712,7 +712,7 @@ If an Exa search fails with an error about too many characters, response size, o
 4. **Fourth**: Reduce `subpages` parameter (for company_research)
 
 **Example Retry Sequence:**
-```bash
+```
 # First attempt fails with "too many characters"
 mcp__exa__web_search_exa(
     query="machine learning best practices",  # Too broad
