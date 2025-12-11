@@ -79,6 +79,10 @@ while [[ $# -gt 0 ]]; do
             ADD_TOOLS=true
             shift
             ;;
+        --uninstall)
+            UNINSTALL_MODE=true
+            shift
+            ;;
         -h|--help)
             echo "Usage: $0 [OPTIONS]"
             echo ""
