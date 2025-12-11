@@ -59,7 +59,7 @@ When run from a project directory, `add-mcps`:
 
 The script intelligently detects if content already exists:
 
-- **CLAUDE.md**: Checks for marker `## 🔍 OPTIMAL TOOL USAGE - RIPGREP & SERENA MCP`
+- **TOOL_USAGE.md**: Checks for marker `## 🔍 OPTIMAL TOOL USAGE - BUILT-IN TOOLS, GLOB, GREP & SERENA MCP`
 - **AGENTS.md**: Checks for marker `# Universal Dual-Workflow Agent System`
 
 If these markers are found, the content is skipped to avoid duplicates.
