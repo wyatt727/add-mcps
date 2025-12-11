@@ -1600,28 +1600,28 @@ mcp__playwright__browser_tabs(action="select", index=0)
 ### Anti-Patterns to AVOID
 
 ❌ **Bad:** Taking screenshot before snapshot
-```bash
+```
 # DON'T DO THIS
 mcp__playwright__browser_navigate(url="https://example.com")
 mcp__playwright__browser_take_screenshot()  # Blind approach!
 ```
 
 ✅ **Good:** Snapshot first, screenshot only if needed
-```bash
+```
 # DO THIS
 mcp__playwright__browser_navigate(url="https://example.com")
 mcp__playwright__browser_snapshot()  # Understand structure first
 ```
 
 ❌ **Bad:** Using browser_type for multi-field forms
-```bash
+```
 # DON'T DO THIS - inefficient
 mcp__playwright__browser_type(element="Email", ref="r1", text="user@example.com")
 mcp__playwright__browser_type(element="Password", ref="r2", text="pass")
 ```
 
 ✅ **Good:** Use browser_fill_form
-```bash
+```
 # DO THIS - single efficient operation
 mcp__playwright__browser_fill_form(fields=[...])
 ```
