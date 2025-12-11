@@ -112,16 +112,16 @@ Read(file_path="src/file.js")  # Read first
 Edit(file_path="src/file.js", old_string="...", new_string="...")  # Then edit
 ```
 
-❌ **FORBIDDEN:** Sequential edits to the same file
+⚠️ **Less Efficient:** Many small sequential edits
 ```
-# ABSOLUTELY DO NOT DO THIS - wastes time with multiple round-trips
+# Each edit should have substantial content - prefer fewer, larger edits
 Edit(file_path="src/config.js", old_string="port: 3000", new_string="port: 8080")
 Edit(file_path="src/config.js", old_string="host: 'localhost'", new_string="host: '0.0.0.0'")
 Edit(file_path="src/config.js", old_string="debug: false", new_string="debug: true")
-# THREE operations when ONE would do!
+# THREE small operations - could be combined!
 ```
 
-✅ **REQUIRED:** Combine into single bulk edit
+✅ **Better:** Combine into single bulk edit when possible
 ```
 # DO THIS - one edit with larger context
 Edit(
@@ -129,10 +129,10 @@ Edit(
     old_string="port: 3000,\n  host: 'localhost',\n  debug: false",
     new_string="port: 8080,\n  host: '0.0.0.0',\n  debug: true"
 )
-# ONE operation = FAST!
+# ONE operation with substantial content = FAST!
 ```
 
-✅ **REQUIRED:** Use replace_all for renaming
+✅ **Best Practice:** Use replace_all for renaming
 ```
 # When renaming a variable/function across a file:
 Edit(file_path="src/utils.js", old_string="oldFunctionName", new_string="newFunctionName", replace_all=true)
