@@ -330,6 +330,15 @@ uninstall_all() {
 
 # Get current project directory
 PROJECT_DIR="$(pwd)"
+
+# Handle uninstall mode
+if [[ "$UNINSTALL_MODE" == true ]]; then
+    log_info "Uninstalling from project: $PROJECT_DIR"
+    echo ""
+    uninstall_all
+    exit 0
+fi
+
 log_info "Installing MCP servers for project: $PROJECT_DIR"
 echo ""
 
