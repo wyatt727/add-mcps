@@ -521,7 +521,7 @@ If a Context7 search fails with an error about too many characters or token limi
 3. **Third**: Use a more focused search term in the topic
 
 **Example Retry Sequence:**
-```bash
+```
 # First attempt fails with "too many characters"
 mcp__context7__get-library-docs(
     context7CompatibleLibraryID="/vercel/next.js",
