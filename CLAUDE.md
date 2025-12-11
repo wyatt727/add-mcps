@@ -1638,7 +1638,7 @@ mcp__playwright__browser_fill_form(fields=[...])
    └─> Save refs, actions, expected outcomes
 3. Use Context7 for testing framework documentation
    └─> Learn Playwright test syntax, assertions
-4. Use rg to find existing test patterns
+4. Use Grep to find existing test patterns
    └─> Discover your testing conventions
 5. Use Serena to understand test file structure
    └─> Know where tests belong
