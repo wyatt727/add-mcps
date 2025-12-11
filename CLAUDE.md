@@ -57,52 +57,59 @@ Grep(pattern="Configuration", path="docs/large-guide.md", output_mode="content",
 Read(file_path="docs/large-guide.md", offset=1500, limit=100)
 ```
 
-### Speed-Optimized rg Patterns
+### Built-in Grep Tool Patterns
 
-**🚀 ALWAYS use line numbers + context for maximum information in one call**
+**🚀 Use Grep tool with appropriate output modes and context options**
 
-```bash
-# BEST: Line numbers + context (get everything at once)
-rg -n -C 5 "pattern" file.md
+```
+# BEST: Content mode with line numbers + context (get everything at once)
+Grep(pattern="pattern", path="file.md", output_mode="content", -n=true, -C=5)
 # Returns line numbers AND 5 lines of context before/after
-# One command gives you location + understanding
 
 # Get MORE context when needed
-rg -n -C 10 "function definition" src/
-# See more surrounding code
+Grep(pattern="function definition", path="src/", output_mode="content", -C=10)
 
 # Use -A (after) and -B (before) for asymmetric context
-rg -n -A 10 -B 2 "class MyClass" src/
+Grep(pattern="class MyClass", path="src/", output_mode="content", -A=10, -B=2)
 # 2 lines before, 10 lines after (useful for class definitions)
 
-# Parallel searches in ONE message (FASTEST)
-# Run multiple rg commands at once to get all info simultaneously
-rg -n "TODO" src/ && \
-rg -n "FIXME" src/ && \
-rg -n "ERROR" src/
+# Find files containing pattern (files_with_matches mode)
+Grep(pattern="TODO", path="src/", output_mode="files_with_matches")
+
+# Count matches per file
+Grep(pattern="TODO", path="src/", output_mode="count")
+
+# Filter by file type
+Grep(pattern="useState", path="src/", type="js")      # Only JavaScript
+Grep(pattern="def ", path="src/", type="py")          # Only Python
+Grep(pattern="# ", path=".", glob="*.md")             # Only Markdown
 ```
 
-### Parallel Search Strategy (Maximum Speed)
+### Parallel Search Strategy (Maximum Efficiency)
 
-**🚀 CRITICAL: Always search for multiple things in parallel**
+**🚀 CRITICAL: Make multiple tool calls in a single message for true parallel execution**
 
-```bash
+```
 # DON'T do this (3 separate messages = SLOW):
-Message 1: rg "pattern1"
-Message 2: rg "pattern2"
-Message 3: rg "pattern3"
+Message 1: Grep(pattern="pattern1", ...)
+Message 2: Grep(pattern="pattern2", ...)
+Message 3: Grep(pattern="pattern3", ...)
 
-# DO this (1 message = FAST):
-rg -n -C 3 "pattern1" src/ && \
-rg -n -C 3 "pattern2" src/ && \
-rg -n -C 3 "pattern3" src/
+# DO this (1 message with multiple tool calls = FAST, TRUE PARALLEL):
+# In a single response, call all three Grep tools simultaneously:
+Grep(pattern="TODO", path="src/", output_mode="content", -n=true)
+Grep(pattern="FIXME", path="src/", output_mode="content", -n=true)
+Grep(pattern="ERROR", path="src/", output_mode="content", -n=true)
+# All execute in parallel!
 
-# Or run completely independent searches
-rg -n "import" file1.js
-rg -n "export" file2.js
-rg -n "function" file3.js
-# All in ONE message!
+# Or search different files in parallel
+Grep(pattern="import", path="file1.js", output_mode="content")
+Grep(pattern="export", path="file2.js", output_mode="content")
+Grep(pattern="function", path="file3.js", output_mode="content")
 ```
+
+**Note:** Using `&&` in bash runs commands SEQUENTIALLY, not in parallel.
+True parallel execution requires multiple tool calls in a single message.
 
 ### When to Use ripgrep (rg)
 
