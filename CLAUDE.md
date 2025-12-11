@@ -1694,7 +1694,7 @@ mcp__playwright__browser_fill_form(fields=[...])
    └─> Same pages, same dimensions
 5. Compare screenshots (external tool or manually)
    └─> Identify visual regressions
-6. Use rg + Serena to fix issues
+6. Use Grep + Serena to fix issues
    └─> Locate and fix styling problems
 ```
 
