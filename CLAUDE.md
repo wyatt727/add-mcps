@@ -26,25 +26,25 @@ Glob(pattern="src/**/*.ts")       # Find TS files in src/
 ```
 
 **Small Files (<500 lines): Just Read Them**
-```bash
-# DON'T waste time with rg on small files
-# Just read the whole thing - it's faster!
+```
+# DON'T waste time searching small files - just read them!
 Read(file_path="/path/to/config.yaml")  # 200 lines
 Read(file_path="/path/to/script.sh")     # 350 lines
 Read(file_path="/path/to/README.md")     # 400 lines
 ```
 
-**Medium Files (500-2000 lines): rg → Read Sections**
-```bash
-# Use rg to get line numbers + context, then read strategic sections
-rg -n "function handleError" src/app.js  # Returns: "542: function handleError()"
+**Medium Files (500-2000 lines): Grep → Read Sections**
+```
+# Use Grep tool to find sections with line numbers + context
+Grep(pattern="function handleError", path="src/app.js", output_mode="content", -n=true, -C=5)
+# Returns line numbers AND context
 
-# Read the function and surrounding code
+# Then read the specific section
 Read(file_path="src/app.js", offset=540, limit=50)  # Read lines 540-590
 ```
 
-**Large Files (>2000 lines): Serena for Code, rg for Non-Code**
-```bash
+**Large Files (>2000 lines): Serena for Code, Grep for Non-Code**
+```
 # For code: Use Serena for semantic understanding
 mcp__serena__find_symbol(
     name_path="handleError",
@@ -52,8 +52,8 @@ mcp__serena__find_symbol(
     include_body=True
 )
 
-# For non-code (docs, logs, config): rg + targeted reads
-rg -n "Configuration" docs/large-guide.md  # Get line numbers
+# For non-code (docs, logs, config): Grep + targeted reads
+Grep(pattern="Configuration", path="docs/large-guide.md", output_mode="content", -n=true)
 Read(file_path="docs/large-guide.md", offset=1500, limit=100)
 ```
 
