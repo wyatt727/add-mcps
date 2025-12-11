@@ -503,7 +503,7 @@ Edit(file_path="src/file.js", old_string="...", new_string="...")  # Then edit
 - General coding questions not tied to a specific library
 - Internal codebase understanding (use Serena instead)
 - Finding real-world usage examples from GitHub repos (use Exa instead)
-- Text pattern searches (use rg instead)
+- Text pattern searches (use Grep tool instead)
 - Non-library documentation (use Exa for general web search)
 
 ⚠️ **CRITICAL WORKFLOW:**
