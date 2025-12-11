@@ -51,6 +51,7 @@ DIAGNOSE_MODE=false
 FORCE_REINSTALL=false
 ADD_AGENTS=false
 ADD_TOOLS=false
+UNINSTALL_MODE=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
