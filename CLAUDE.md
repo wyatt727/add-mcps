@@ -207,7 +207,7 @@ Glob(pattern="**/*.config.js")
 - Small code files (just read them)
 
 **Optimal Serena Workflow:**
-```bash
+```
 # 1. Start with overview - understand file structure
 mcp__serena__get_symbols_overview(relative_path="path/to/LargeFile.kt")
 
