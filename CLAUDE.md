@@ -1826,6 +1826,97 @@ mcp__playwright__browser_fill_form(fields=[...])
 **Need to implement/edit YOUR code?**
 → Use **Edit tool**
 
+---
+
+## 📋 PLAN AGENT - Strategic Planning for Complex Tasks
+
+### When to Use the Plan Agent
+
+The **Plan agent** (`subagent_type="Plan"`) is a software architect agent designed for planning implementation strategies. Use it when you need to think through how to implement something before writing code.
+
+✅ **Use the Plan agent for:**
+- Designing implementation plans for new features
+- Planning complex refactoring efforts
+- Architecting multi-component systems
+- Evaluating trade-offs between different approaches
+- Creating step-by-step implementation roadmaps
+- Identifying critical files and dependencies before making changes
+
+❌ **Don't use the Plan agent for:**
+- Simple single-file changes
+- Quick bug fixes with obvious solutions
+- Tasks where the implementation path is already clear
+- Pure exploration/research (use Explore agent instead)
+
+### How to Use the Plan Agent
+
+```
+Task(
+    subagent_type="Plan",
+    prompt="Design an implementation plan for adding user authentication with OAuth2 support"
+)
+```
+
+**Tips for effective prompts:**
+- Describe the feature or change you want to implement
+- Include any constraints or requirements
+- Mention technologies or patterns you want to use
+- Specify if there are architectural preferences
+
+### Plan Agent Output
+
+The Plan agent will return:
+- Step-by-step implementation plans
+- Identification of critical files to modify
+- Architectural considerations and trade-offs
+- Dependency analysis
+- Recommended approach with justification
+
+---
+
+## 🎨 FRONTEND-DESIGN SKILL - High-Quality UI Development
+
+### When to Use the Frontend-Design Skill
+
+The **frontend-design skill** creates distinctive, production-grade frontend interfaces with high design quality. Use it when working on any visual/UI components.
+
+✅ **Use the frontend-design skill for:**
+- Building new web components, pages, or applications
+- Creating or modifying UI elements
+- Designing forms, dashboards, or layouts
+- Implementing responsive designs
+- Adding visual polish to existing interfaces
+- Any task involving HTML, CSS, or frontend frameworks
+
+❌ **Don't use the frontend-design skill for:**
+- Backend-only changes
+- API development without UI components
+- Database modifications
+- Non-visual code changes
+
+### How to Use the Frontend-Design Skill
+
+Invoke the skill when working on UI tasks:
+
+```
+Skill(skill="frontend-design:frontend-design")
+```
+
+**The skill generates:**
+- Creative, polished code that avoids generic AI aesthetics
+- Production-ready components
+- Distinctive designs with attention to visual hierarchy
+- Responsive and accessible implementations
+
+### Key Benefits
+
+- **Avoids generic AI aesthetics** - Produces distinctive, professional designs
+- **Production-grade quality** - Code is ready for deployment
+- **Design-focused** - Prioritizes visual hierarchy, spacing, and user experience
+- **Framework-aware** - Works with React, Vue, vanilla HTML/CSS, and more
+
+---
+
 ### Updated Token Budget Management
 
 The optimal workflow remains token-conscious:
