@@ -595,7 +595,7 @@ mcp__context7__get-library-docs(
 
 ### Context7 Anti-Patterns to AVOID
 ❌ **Bad:** Skipping resolve-library-id
-```bash
+```
 # DON'T DO THIS - will fail without exact ID
 mcp__context7__get-library-docs(
     context7CompatibleLibraryID="react-query"  # Wrong format!
@@ -603,7 +603,7 @@ mcp__context7__get-library-docs(
 ```
 
 ✅ **Good:** Always resolve first
-```bash
+```
 # DO THIS - resolve then fetch
 # 1. Resolve
 mcp__context7__resolve-library-id(libraryName="react-query")
@@ -612,7 +612,7 @@ mcp__context7__get-library-docs(context7CompatibleLibraryID="/tanstack/query")
 ```
 
 ❌ **Bad:** Fetching all documentation without topic focus
-```bash
+```
 # DON'T DO THIS - wastes tokens on irrelevant docs
 mcp__context7__get-library-docs(
     context7CompatibleLibraryID="/vercel/next.js"
@@ -621,7 +621,7 @@ mcp__context7__get-library-docs(
 ```
 
 ✅ **Good:** Use topic parameter when you know what you need
-```bash
+```
 # DO THIS - narrow scope to relevant sections
 mcp__context7__get-library-docs(
     context7CompatibleLibraryID="/vercel/next.js",
