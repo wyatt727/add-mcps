@@ -94,6 +94,7 @@ while [[ $# -gt 0 ]]; do
             echo "  --force                              # Force reinstallation of all servers"
             echo "  --add-agents                         # Copy agents and AGENTS.md to project"
             echo "  --add-tools                          # Copy TOOL_USAGE.md to project docs/"
+            echo "  --uninstall                          # Remove all MCP servers, docs, and config"
             echo ""
             echo "Available servers:"
             echo "  - exa: Web search and research capabilities"
