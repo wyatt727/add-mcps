@@ -234,6 +234,100 @@ diagnose_and_fix() {
     echo ""
 }
 
+# Uninstall function - removes all MCP servers, docs, and config
+uninstall_all() {
+    log_info "Uninstalling MCP servers and cleaning up..."
+    echo ""
+
+    # List of servers to remove
+    local servers=("exa" "sequential-thinking" "serena" "playwright" "context7" "server-memory")
+
+    # Remove each MCP server
+    echo "===================================="
+    echo "Removing MCP Servers..."
+    echo "===================================="
+    for server in "${servers[@]}"; do
+        if /Users/pentester/.claude/local/claude mcp list 2>/dev/null | grep -q "^$server:"; then
+            log_info "Removing $server..."
+            if /Users/pentester/.claude/local/claude mcp remove "$server" 2>/dev/null; then
+                log_success "Removed $server"
+            else
+                log_warning "Failed to remove $server"
+            fi
+        else
+            log_info "$server not installed, skipping..."
+        fi
+    done
+    echo ""
+
+    # Remove documentation files
+    echo "===================================="
+    echo "Removing Documentation..."
+    echo "===================================="
+
+    if [[ -f "$PROJECT_DIR/docs/TOOL_USAGE.md" ]]; then
+        rm -f "$PROJECT_DIR/docs/TOOL_USAGE.md"
+        log_success "Removed docs/TOOL_USAGE.md"
+        # Remove docs directory if empty
+        rmdir "$PROJECT_DIR/docs" 2>/dev/null && log_info "Removed empty docs/ directory" || true
+    else
+        log_info "docs/TOOL_USAGE.md not found, skipping..."
+    fi
+
+    if [[ -f "$PROJECT_DIR/AGENTS.md" ]]; then
+        rm -f "$PROJECT_DIR/AGENTS.md"
+        log_success "Removed AGENTS.md"
+    else
+        log_info "AGENTS.md not found, skipping..."
+    fi
+    echo ""
+
+    # Remove agent files
+    echo "===================================="
+    echo "Removing Agent Files..."
+    echo "===================================="
+
+    if [[ -d "$PROJECT_DIR/.claude/agents" ]]; then
+        local agent_count=$(find "$PROJECT_DIR/.claude/agents" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+        rm -rf "$PROJECT_DIR/.claude/agents"
+        log_success "Removed .claude/agents/ ($agent_count agent files)"
+    else
+        log_info ".claude/agents/ not found, skipping..."
+    fi
+    echo ""
+
+    # Remove settings file
+    echo "===================================="
+    echo "Removing Configuration..."
+    echo "===================================="
+
+    if [[ -f "$PROJECT_DIR/.claude/settings.local.json" ]]; then
+        rm -f "$PROJECT_DIR/.claude/settings.local.json"
+        log_success "Removed .claude/settings.local.json"
+    else
+        log_info ".claude/settings.local.json not found, skipping..."
+    fi
+
+    # Remove .claude directory if empty
+    if [[ -d "$PROJECT_DIR/.claude" ]]; then
+        rmdir "$PROJECT_DIR/.claude" 2>/dev/null && log_success "Removed empty .claude/ directory" || log_info ".claude/ directory not empty, keeping..."
+    fi
+    echo ""
+
+    echo "===================================="
+    log_success "Uninstall Complete!"
+    echo "===================================="
+    echo ""
+    log_info "Removed:"
+    echo "  • MCP servers (exa, sequential-thinking, serena, playwright, context7, server-memory)"
+    echo "  • docs/TOOL_USAGE.md"
+    echo "  • AGENTS.md"
+    echo "  • .claude/agents/"
+    echo "  • .claude/settings.local.json"
+    echo ""
+    log_info "Note: Restart Claude Code to apply changes"
+}
+
 # Get current project directory
 PROJECT_DIR="$(pwd)"
 log_info "Installing MCP servers for project: $PROJECT_DIR"
