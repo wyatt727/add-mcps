@@ -9,6 +9,116 @@
 - **Smart file size decisions** - small files (<500 lines): just Read them, medium (500-2000): Grep then Read sections, large (>2000): use Serena for code
 - **Combine strategically: Grep/Glob → Read/Serena → Edit** - discover, understand, then modify
 - **For open-ended exploration** - use Task tool with `subagent_type=Explore` instead of manual searching
+- **Parallel Explore agents** - spawn multiple Explore agents simultaneously for massive speedup on complex investigations
+
+### 🚀 Parallel Explore Agents - Maximum Speed for Codebase Understanding
+
+**The Explore agent (`subagent_type="Explore"`) is a fast, specialized agent for codebase exploration.** It has access to all search tools and can autonomously investigate questions about the codebase.
+
+**🔑 KEY INSIGHT: You can spawn MULTIPLE Explore agents in parallel in a single message!**
+
+This is dramatically faster than sequential exploration because:
+- Each agent works independently and concurrently
+- Results come back together when all agents complete
+- Complex investigations that would take 10+ sequential searches happen in one parallel batch
+
+#### When to Use Parallel Explore Agents
+
+✅ **Use parallel Explore agents for:**
+- Understanding a new codebase (spawn agents for different aspects)
+- Investigating multiple related questions simultaneously
+- Finding patterns across different parts of the codebase
+- Researching how different features are implemented
+- Any open-ended exploration where you don't know exact file/symbol names
+
+❌ **Don't use Explore agents for:**
+- Reading a specific known file (just use Read)
+- Finding a specific known symbol (use Grep or Serena directly)
+- Simple single-file edits (just Read then Edit)
+
+#### How to Use Parallel Explore Agents
+
+**Single message, multiple Task calls = TRUE PARALLEL EXECUTION:**
+
+```
+# Example: Understanding a new codebase - spawn 4 agents in ONE message
+Task(
+    subagent_type="Explore",
+    prompt="Find and explain the main entry points of this application"
+)
+Task(
+    subagent_type="Explore",
+    prompt="Identify the database/data layer - what ORM or database is used and how"
+)
+Task(
+    subagent_type="Explore",
+    prompt="Find the authentication/authorization implementation"
+)
+Task(
+    subagent_type="Explore",
+    prompt="Locate and explain the API routes/endpoints structure"
+)
+# All 4 run simultaneously!
+```
+
+#### Practical Parallel Exploration Patterns
+
+**Pattern 1: New Codebase Orientation (5 parallel agents)**
+```
+Task(subagent_type="Explore", prompt="What is the overall architecture and tech stack?")
+Task(subagent_type="Explore", prompt="Where is the main configuration and how is it structured?")
+Task(subagent_type="Explore", prompt="How is error handling implemented across the codebase?")
+Task(subagent_type="Explore", prompt="What testing frameworks and patterns are used?")
+Task(subagent_type="Explore", prompt="How is logging/monitoring implemented?")
+```
+
+**Pattern 2: Feature Investigation (3 parallel agents)**
+```
+Task(subagent_type="Explore", prompt="How is user authentication implemented? Find all auth-related code.")
+Task(subagent_type="Explore", prompt="What middleware or interceptors are used and where?")
+Task(subagent_type="Explore", prompt="How are API responses formatted and errors returned?")
+```
+
+**Pattern 3: Bug Investigation (4 parallel agents)**
+```
+Task(subagent_type="Explore", prompt="Find all code related to [feature X] and how data flows through it")
+Task(subagent_type="Explore", prompt="What validation exists for [input Y] and where?")
+Task(subagent_type="Explore", prompt="Find error handling around [component Z]")
+Task(subagent_type="Explore", prompt="What tests exist for [feature X] and what do they cover?")
+```
+
+**Pattern 4: Refactoring Preparation (3 parallel agents)**
+```
+Task(subagent_type="Explore", prompt="Find all usages of [function/class X] across the codebase")
+Task(subagent_type="Explore", prompt="What depends on [module Y] and how is it imported?")
+Task(subagent_type="Explore", prompt="Are there similar patterns to [X] that should be refactored together?")
+```
+
+#### Explore Agent Parameters
+
+```
+Task(
+    subagent_type="Explore",      # Required: specifies the Explore agent
+    prompt="your question here",   # Required: what to investigate
+    model="haiku"                  # Optional: use haiku for faster/cheaper exploration
+)
+```
+
+**Tips for effective prompts:**
+- Be specific about what you want to find
+- Ask "how" and "where" questions
+- Mention specific technologies if relevant
+- Include context about what you're trying to accomplish
+
+#### Speed Comparison
+
+| Approach | Time | Notes |
+|----------|------|-------|
+| Sequential manual Grep/Read | 10+ tool calls | Slow, context-heavy |
+| Single Explore agent | 1 agent call | Good for single questions |
+| **Parallel Explore agents** | 1 message, N agents | **Fastest for complex investigations** |
+
+**Remember:** When you have multiple questions about a codebase, DON'T ask them one at a time. Spawn multiple Explore agents in a single message for massive speedup!
 
 ### File Size Decision Tree (Speed-Optimized)
 
