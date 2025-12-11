@@ -930,6 +930,52 @@ google-chrome \
 sleep 3
 ```
 
+#### Windows
+
+```powershell
+# Step 1: Kill any existing Chrome instances (if safe to do so)
+taskkill /F /IM chrome.exe 2>$null
+Start-Sleep -Seconds 2
+Remove-Item -Recurse -Force "$env:TEMP\chrome-debug" -ErrorAction SilentlyContinue
+
+# Step 2: Launch Chrome with debugging enabled
+Start-Process -FilePath "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList @(
+    "--remote-debugging-port=9222",
+    "--user-data-dir=$env:TEMP\chrome-debug",
+    "--disable-web-security",
+    "--disable-features=IsolateOrigins,site-per-process",
+    "--no-first-run",
+    "--no-default-browser-check",
+    "about:blank"
+)
+
+# Wait for browser to initialize
+Start-Sleep -Seconds 3
+```
+
+Or using Command Prompt:
+
+```cmd
+:: Step 1: Kill any existing Chrome instances
+taskkill /F /IM chrome.exe 2>nul
+
+:: Step 2: Wait and clean up
+timeout /t 2 >nul
+rmdir /s /q "%TEMP%\chrome-debug" 2>nul
+
+:: Step 3: Launch Chrome with debugging enabled
+start "" "C:\Program Files\Google\Chrome\Application\chrome.exe" ^
+  --remote-debugging-port=9222 ^
+  --user-data-dir="%TEMP%\chrome-debug" ^
+  --disable-web-security ^
+  --disable-features=IsolateOrigins,site-per-process ^
+  --no-first-run ^
+  --no-default-browser-check ^
+  about:blank
+
+:: Wait for browser to initialize
+timeout /t 3 >nul
+```
 
 ### Verify CDP Connection
 
