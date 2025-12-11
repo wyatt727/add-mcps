@@ -1528,7 +1528,7 @@ mcp__playwright__browser_evaluate(
 ### Optimal Workflow Patterns
 
 **Pattern 1: Comprehensive Web Application Discovery**
-```bash
+```
 # 1. Navigate to target
 mcp__playwright__browser_navigate(url="https://target.com")
 
