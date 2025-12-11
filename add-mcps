@@ -74,8 +74,8 @@ while [[ $# -gt 0 ]]; do
             ADD_AGENTS=true
             shift
             ;;
-        --add-claude)
-            ADD_CLAUDE=true
+        --add-tools)
+            ADD_TOOLS=true
             shift
             ;;
         -h|--help)
