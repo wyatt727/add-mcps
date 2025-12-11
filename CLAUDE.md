@@ -1246,7 +1246,7 @@ mcp__playwright__browser_network_requests()
 
 Enable monitoring BEFORE interacting with the page:
 
-```bash
+```
 # Set up comprehensive API endpoint monitoring via JavaScript injection
 mcp__playwright__browser_evaluate(
     function="() => {
