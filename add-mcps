@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # add-mcps.sh - Install MCP servers at project level for Claude Code
-# Usage: ./add-mcps.sh [--disable server1,server2] [--only server1,server2] [--diagnose] [--force] [--add-agents] [--add-tools] [-h|--help]
-# Version: 2.4 - Changed --add-claude to --add-tools, now writes to docs/TOOL_USAGE.md
+# Usage: ./add-mcps.sh [--disable server1,server2] [--only server1,server2] [--diagnose] [--force] [--add-agents] [--add-tools] [--uninstall] [-h|--help]
+# Version: 2.5 - Added --uninstall option for full cleanup
 
 set -e
 
