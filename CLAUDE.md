@@ -1107,7 +1107,7 @@ mcp__playwright__browser_evaluate(
 
 #### Step 2: Comprehensive Link Discovery
 
-```bash
+```
 # Extract ALL links (including dynamically generated)
 mcp__playwright__browser_evaluate(
     function="() => {
