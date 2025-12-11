@@ -231,39 +231,42 @@ mcp__serena__search_for_pattern(
 )
 ```
 
-### Speed-Optimized Workflows
+### Optimized Workflows
 
-**Workflow 1: Finding and Modifying Content (FASTEST)**
-```bash
-# Step 1: Parallel search to find ALL relevant locations at once
-rg -n -C 5 "old_function_name" src/ && \
-rg -n -C 5 "OldClassName" src/ && \
-rg -n "import.*OldModule" src/
-
-# Step 2: Based on results, read relevant files
-# Small file? Read whole thing
+**Workflow 1: Finding and Modifying Content**
+```
+# Step 1: IMPORTANT - Read the file first (Edit requires prior Read)
 Read(file_path="src/utils.js")
 
-# Medium/large file? Read specific sections based on rg line numbers
+# Step 2: Parallel search to find ALL relevant locations (multiple tool calls in one message)
+Grep(pattern="old_function_name", path="src/", output_mode="content", -n=true, -C=5)
+Grep(pattern="OldClassName", path="src/", output_mode="content", -n=true, -C=5)
+Grep(pattern="import.*OldModule", path="src/", output_mode="content", -n=true)
+
+# Step 3: For medium/large files, read specific sections
 Read(file_path="src/app.js", offset=340, limit=60)
 
-# Step 3: Edit
+# Step 4: Edit (ONLY after reading the file)
 Edit(file_path="src/utils.js", old_string="...", new_string="...")
 
-# Step 4: Verify change with rg
-rg -n -C 3 "new_function_name" src/utils.js
+# Step 5: Verify change
+Grep(pattern="new_function_name", path="src/utils.js", output_mode="content", -n=true, -C=3)
 ```
 
-**Workflow 2: Understanding New Codebase (FASTEST)**
-```bash
-# Step 1: Check file sizes and structure
-ls -lh src/
-wc -l src/*.js
+**Workflow 2: Understanding New Codebase**
+```
+# RECOMMENDED: Use Task tool with Explore agent for open-ended exploration
+Task(subagent_type="Explore", prompt="Explore the codebase structure and identify key components")
 
-# Step 2: Parallel search for key patterns
-rg -l "export.*function" src/ && \
-rg -l "export.*class" src/ && \
-rg -l "import.*react" src/
+# Or manually:
+# Step 1: Find files by pattern
+Glob(pattern="src/**/*.js")
+Glob(pattern="src/**/*.ts")
+
+# Step 2: Parallel search for key patterns (multiple tool calls in one message)
+Grep(pattern="export.*function", path="src/", output_mode="files_with_matches")
+Grep(pattern="export.*class", path="src/", output_mode="files_with_matches")
+Grep(pattern="import.*react", path="src/", output_mode="files_with_matches")
 
 # Step 3: Based on file sizes, choose strategy
 # Small files (<500 lines): Read them all
@@ -274,14 +277,14 @@ Read(file_path="src/utils.js")
 mcp__serena__get_symbols_overview(relative_path="src/large-app.js")
 ```
 
-**Workflow 3: Debugging (FASTEST)**
-```bash
-# Step 1: Parallel search for error message + related code
-rg -n -C 10 "Error: Connection failed" . && \
-rg -n -C 5 "function.*connect" src/ && \
-rg -n -C 5 "handleConnectionError" src/
+**Workflow 3: Debugging**
+```
+# Step 1: Parallel search for error message + related code (multiple tool calls)
+Grep(pattern="Error: Connection failed", output_mode="content", -n=true, -C=10)
+Grep(pattern="function.*connect", path="src/", output_mode="content", -n=true, -C=5)
+Grep(pattern="handleConnectionError", path="src/", output_mode="content", -n=true, -C=5)
 
-# Step 2: Read relevant sections immediately (based on line numbers from rg)
+# Step 2: Read relevant sections (based on line numbers from Grep)
 Read(file_path="src/database.js", offset=450, limit=80)
 
 # Step 3: Check related functions (if in large file, use Serena)
@@ -292,27 +295,30 @@ mcp__serena__find_symbol(
 )
 ```
 
-**Workflow 4: Refactoring (FASTEST)**
-```bash
-# Step 1: Find all occurrences (parallel search)
-rg -n -C 3 "oldFunctionName" src/ && \
-rg -n "class.*uses.*oldFunction" src/ && \
-rg -n "import.*oldFunction" src/
+**Workflow 4: Refactoring**
+```
+# Step 1: Find all occurrences (parallel search - multiple tool calls)
+Grep(pattern="oldFunctionName", path="src/", output_mode="content", -n=true, -C=3)
+Grep(pattern="class.*uses.*oldFunction", path="src/", output_mode="content", -n=true)
+Grep(pattern="import.*oldFunction", path="src/", output_mode="content", -n=true)
 
-# Step 2: For small/medium files, read them
-# For large files, use Serena to find references
+# Step 2: For large files, use Serena to find references
 mcp__serena__find_referencing_symbols(
     name_path="oldFunctionName",
     relative_path="src/main.js"
 )
 
-# Step 3: Edit all files
+# Step 3: Read files BEFORE editing (required by Edit tool)
+Read(file_path="src/file1.js")
+Read(file_path="src/file2.js")
+
+# Step 4: Edit all files
 Edit(file_path="src/file1.js", old_string="...", new_string="...")
 Edit(file_path="src/file2.js", old_string="...", new_string="...")
 
-# Step 4: Verify all changes with rg
-rg -n "newFunctionName" src/
-rg -n "oldFunctionName" src/  # Should return nothing
+# Step 5: Verify all changes
+Grep(pattern="newFunctionName", path="src/", output_mode="content", -n=true)
+Grep(pattern="oldFunctionName", path="src/", output_mode="content", -n=true)  # Should return nothing
 ```
 
 ### Line-Based Navigation (Speed Technique)
