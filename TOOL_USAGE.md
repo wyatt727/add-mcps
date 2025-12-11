@@ -34,550 +34,69 @@ Edit(file_path="file.js", old_string="oldName", new_string="newName", replace_al
 
 ---
 
-### Core Principles - EFFICIENCY FIRST
-- **🚀 SPEED IS EVERYTHING** - minimize tool calls, maximize work per call
-- **🚀 BULK EDITS MANDATORY** - if edits can be combined, they MUST be combined into one Edit call
-- **🚀 PARALLEL EXECUTION** - make multiple tool calls in a single message for true parallelism
-- **USE BUILT-IN TOOLS** - Claude Code has optimized Grep, Glob, and Read tools that should be preferred
-- **NEVER use bash grep/rg/find/cat** - use the built-in Grep, Glob, and Read tools instead
-- **Built-in Grep tool is optimized** - has proper permissions, supports regex, context lines, and multiple output modes
-- **Built-in Glob tool for file patterns** - use for finding files by name patterns (e.g., `**/*.js`)
-- **Parallel tool calls** - make multiple Grep/Glob/Read calls in a single message for parallel execution
-- **Smart file size decisions** - small files (<500 lines): just Read them, medium (500-2000): Grep then Read sections, large (>2000): use Serena for code
-- **Combine strategically: Grep/Glob → Read/Serena → Edit** - discover, understand, then modify
-- **For open-ended exploration** - use Task tool with `subagent_type=Explore` instead of manual searching
-- **Parallel Explore agents** - spawn multiple Explore agents simultaneously for massive speedup on complex investigations
+### Core Principles - SPEED ABOVE ALL
 
-### 🚀 Parallel Explore Agents - Maximum Speed for Codebase Understanding
-
-**The Explore agent (`subagent_type="Explore"`) is a fast, specialized agent for codebase exploration.** It has access to all search tools and can autonomously investigate questions about the codebase.
-
-**🔑 KEY INSIGHT: You can spawn MULTIPLE Explore agents in parallel in a single message!**
-
-This is dramatically faster than sequential exploration because:
-- Each agent works independently and concurrently
-- Results come back together when all agents complete
-- Complex investigations that would take 10+ sequential searches happen in one parallel batch
-
-#### When to Use Parallel Explore Agents
-
-✅ **Use parallel Explore agents for:**
-- Understanding a new codebase (spawn agents for different aspects)
-- Investigating multiple related questions simultaneously
-- Finding patterns across different parts of the codebase
-- Researching how different features are implemented
-- Any open-ended exploration where you don't know exact file/symbol names
-
-❌ **Don't use Explore agents for:**
-- Reading a specific known file (just use Read)
-- Finding a specific known symbol (use Grep or Serena directly)
-- Simple single-file edits (just Read then Edit)
-
-#### How to Use Parallel Explore Agents
-
-**Single message, multiple Task calls = TRUE PARALLEL EXECUTION:**
+**🚀 THE FASTEST APPROACH:**
+1. **JUST READ THE FILE** - Don't search, don't grep, just READ it
+2. **BULK EDIT** - Make ALL changes in ONE Edit call
+3. **PARALLEL READS** - Read multiple files in one message if needed
 
 ```
-# Example: Understanding a new codebase - spawn 4 agents in ONE message
-Task(
-    subagent_type="Explore",
-    prompt="Find and explain the main entry points of this application"
-)
-Task(
-    subagent_type="Explore",
-    prompt="Identify the database/data layer - what ORM or database is used and how"
-)
-Task(
-    subagent_type="Explore",
-    prompt="Find the authentication/authorization implementation"
-)
-Task(
-    subagent_type="Explore",
-    prompt="Locate and explain the API routes/endpoints structure"
-)
-# All 4 run simultaneously!
+⚡️ FASTEST WORKFLOW:
+Read(file_path="file.js")  →  Edit(file_path="file.js", old_string="...", new_string="...", replace_all=true)
+# TWO STEPS. DONE.
 ```
 
-#### Practical Parallel Exploration Patterns
-
-**Pattern 1: New Codebase Orientation (5 parallel agents)**
+**❌ SLOW (Don't do this):**
 ```
-Task(subagent_type="Explore", prompt="What is the overall architecture and tech stack?")
-Task(subagent_type="Explore", prompt="Where is the main configuration and how is it structured?")
-Task(subagent_type="Explore", prompt="How is error handling implemented across the codebase?")
-Task(subagent_type="Explore", prompt="What testing frameworks and patterns are used?")
-Task(subagent_type="Explore", prompt="How is logging/monitoring implemented?")
+Grep(pattern="something", path="file.js")  # UNNECESSARY STEP
+Read(file_path="file.js", offset=100, limit=50)  # PARTIAL READ
+Edit(...)  # Finally editing
+# THREE+ steps when TWO would do!
 ```
 
-**Pattern 2: Feature Investigation (3 parallel agents)**
+**✅ FAST (Do this):**
 ```
-Task(subagent_type="Explore", prompt="How is user authentication implemented? Find all auth-related code.")
-Task(subagent_type="Explore", prompt="What middleware or interceptors are used and where?")
-Task(subagent_type="Explore", prompt="How are API responses formatted and errors returned?")
-```
-
-**Pattern 3: Bug Investigation (4 parallel agents)**
-```
-Task(subagent_type="Explore", prompt="Find all code related to [feature X] and how data flows through it")
-Task(subagent_type="Explore", prompt="What validation exists for [input Y] and where?")
-Task(subagent_type="Explore", prompt="Find error handling around [component Z]")
-Task(subagent_type="Explore", prompt="What tests exist for [feature X] and what do they cover?")
+Read(file_path="file.js")  # Read the whole file
+Edit(file_path="file.js", old_string="large block", new_string="new block", replace_all=true)  # Bulk edit
+# TWO steps. Maximum speed.
 ```
 
-**Pattern 4: Refactoring Preparation (3 parallel agents)**
-```
-Task(subagent_type="Explore", prompt="Find all usages of [function/class X] across the codebase")
-Task(subagent_type="Explore", prompt="What depends on [module Y] and how is it imported?")
-Task(subagent_type="Explore", prompt="Are there similar patterns to [X] that should be refactored together?")
-```
+### When to Use Each Tool
 
-#### Explore Agent Parameters
+| Situation | Tool | Why |
+|-----------|------|-----|
+| **Any file < 2000 lines** | `Read` then `Edit` | FASTEST - just read it |
+| **Large code file (>2000 lines)** | `Serena` | Semantic search is faster than grep+read |
+| **Need to explore unknown codebase** | `Task(subagent_type="Explore")` | Delegates searching to agent |
+| **Renaming across a file** | `Edit` with `replace_all=true` | ONE operation for all occurrences |
 
-```
-Task(
-    subagent_type="Explore",      # Required: specifies the Explore agent
-    prompt="your question here"    # Required: what to investigate
-)
-```
+### Serena for Large Code Files Only
 
-**Tips for effective prompts:**
-- Be specific about what you want to find
-- Ask "how" and "where" questions
-- Mention specific technologies if relevant
-- Include context about what you're trying to accomplish
-
-#### Speed Comparison
-
-| Approach | Time | Notes |
-|----------|------|-------|
-| Sequential manual Grep/Read | 10+ tool calls | Slow, context-heavy |
-| Single Explore agent | 1 agent call | Good for single questions |
-| **Parallel Explore agents** | 1 message, N agents | **Fastest for complex investigations** |
-
-**Remember:** When you have multiple questions about a codebase, DON'T ask them one at a time. Spawn multiple Explore agents in a single message for massive speedup!
-
-### File Size Decision Tree (Speed-Optimized)
-
-**🚀 CRITICAL: Choose strategy based on file size for MAXIMUM EFFICIENCY**
+**Use Serena ONLY for files >2000 lines where you need specific symbols:**
 
 ```
-# Decision tree (Read tool shows line numbers, so you'll know file size after first read):
-# < 500 lines    → Just Read the entire file (FASTEST)
-# 500-2000 lines → Grep to find sections, then Read with offset/limit
-# > 2000 lines   → Use Serena for code files, or Grep + targeted reads for non-code
-
-# For finding files by pattern:
-Glob(pattern="**/*.js")           # Find all JS files
-Glob(pattern="src/**/*.ts")       # Find TS files in src/
-```
-
-**Small Files (<500 lines): Just Read Them**
-```
-# DON'T waste time searching small files - just read them!
-Read(file_path="/path/to/config.yaml")  # 200 lines
-Read(file_path="/path/to/script.sh")     # 350 lines
-Read(file_path="/path/to/README.md")     # 400 lines
-```
-
-**Medium Files (500-2000 lines): Grep → Read Sections**
-```
-# Use Grep tool to find sections with line numbers + context
-Grep(pattern="function handleError", path="src/app.js", output_mode="content", -n=true, -C=5)
-# Returns line numbers AND context
-
-# Then read the specific section
-Read(file_path="src/app.js", offset=540, limit=50)  # Read lines 540-590
-```
-
-**Large Files (>2000 lines): Serena for Code, Grep for Non-Code**
-```
-# For code: Use Serena for semantic understanding
+# Find and read a specific function in a large file
 mcp__serena__find_symbol(
     name_path="handleError",
-    relative_path="src/app.js",
-    include_body=True
-)
-
-# For non-code (docs, logs, config): Grep + targeted reads
-Grep(pattern="Configuration", path="docs/large-guide.md", output_mode="content", -n=true)
-Read(file_path="docs/large-guide.md", offset=1500, limit=100)
-```
-
-### Built-in Grep Tool Patterns
-
-**🚀 Use Grep tool with appropriate output modes and context options**
-
-```
-# BEST: Content mode with line numbers + context (get everything at once)
-Grep(pattern="pattern", path="file.md", output_mode="content", -n=true, -C=5)
-# Returns line numbers AND 5 lines of context before/after
-
-# Get MORE context when needed
-Grep(pattern="function definition", path="src/", output_mode="content", -C=10)
-
-# Use -A (after) and -B (before) for asymmetric context
-Grep(pattern="class MyClass", path="src/", output_mode="content", -A=10, -B=2)
-# 2 lines before, 10 lines after (useful for class definitions)
-
-# Find files containing pattern (files_with_matches mode)
-Grep(pattern="TODO", path="src/", output_mode="files_with_matches")
-
-# Count matches per file
-Grep(pattern="TODO", path="src/", output_mode="count")
-
-# Filter by file type
-Grep(pattern="useState", path="src/", type="js")      # Only JavaScript
-Grep(pattern="def ", path="src/", type="py")          # Only Python
-Grep(pattern="# ", path=".", glob="*.md")             # Only Markdown
-```
-
-### Parallel Search Strategy (Maximum Efficiency)
-
-**🚀 CRITICAL: Make multiple tool calls in a single message for true parallel execution**
-
-```
-# DON'T do this (3 separate messages = SLOW):
-Message 1: Grep(pattern="pattern1", ...)
-Message 2: Grep(pattern="pattern2", ...)
-Message 3: Grep(pattern="pattern3", ...)
-
-# DO this (1 message with multiple tool calls = FAST, TRUE PARALLEL):
-# In a single response, call all three Grep tools simultaneously:
-Grep(pattern="TODO", path="src/", output_mode="content", -n=true)
-Grep(pattern="FIXME", path="src/", output_mode="content", -n=true)
-Grep(pattern="ERROR", path="src/", output_mode="content", -n=true)
-# All execute in parallel!
-
-# Or search different files in parallel
-Grep(pattern="import", path="file1.js", output_mode="content")
-Grep(pattern="export", path="file2.js", output_mode="content")
-Grep(pattern="function", path="file3.js", output_mode="content")
-```
-
-**Note:** Using `&&` in bash runs commands SEQUENTIALLY, not in parallel.
-True parallel execution requires multiple tool calls in a single message.
-
-### When to Use Built-in Grep Tool
-
-✅ **Use the built-in Grep tool for:**
-- **ANY text-based search** - it's optimized and has proper permissions
-- Finding literal strings/text patterns across files
-- Searching in non-code files (logs, config, markdown, JSON)
-- Discovering where error messages or specific text appears
-- Finding TODOs, FIXMEs, or comment patterns
-- Quick text-based discovery when you DON'T need semantic understanding
-- **Getting line numbers + context** with `-n` and `-C` parameters
-- **Initial discovery before reading files** - but just read small files directly!
-
-❌ **Don't use Grep for:**
-- Finding classes, functions, or methods in large code files (use Serena instead)
-- Understanding code structure in large files (use Serena instead)
-- Reading code to understand implementation in large files (use Serena instead)
-- Finding files by name pattern (use Glob instead)
-
-⚠️ **IMPORTANT:**
-- **ALWAYS use the built-in Grep tool** - NOT bash `grep` or `rg` commands
-- The Grep tool has proper permissions and is optimized for Claude Code
-- Use Glob tool for finding files by pattern (not Grep with `-l`)
-
-**Essential Grep Tool Patterns:**
-```
-# Pattern 1: Line numbers + context (MOST IMPORTANT)
-Grep(pattern="error_handler", output_mode="content", -n=true, -C=5)
-# See: line numbers, 5 lines before, 5 lines after
-
-# Pattern 2: Find files containing pattern
-Grep(pattern="pattern", output_mode="files_with_matches")
-# Just the file names
-
-# Pattern 3: Count matches per file
-Grep(pattern="pattern", output_mode="count")
-# Shows count per file
-
-# Pattern 4: File type filtering
-Grep(pattern="pattern", type="js")        # Only JavaScript
-Grep(pattern="pattern", type="py")        # Only Python
-Grep(pattern="pattern", glob="*.md")      # Only Markdown
-
-# Pattern 5: Case insensitive
-Grep(pattern="pattern", -i=true)
-
-# Pattern 6: Limit results (for large result sets)
-Grep(pattern="pattern", path="file.md", head_limit=1)
-# Get first match only
-
-# Pattern 7: Multiple patterns (OR search using regex)
-Grep(pattern="pattern1|pattern2|pattern3")
-
-# Pattern 8: Directory-specific search
-Grep(pattern="pattern", path="src/components/")
-```
-
-### When to Use Built-in Glob Tool
-
-✅ **Use the built-in Glob tool for:**
-- Finding files by name patterns (e.g., `**/*.js`, `src/**/*.ts`)
-- Listing files in directories with pattern matching
-- Finding configuration files, test files, etc.
-
-```
-# Find all JavaScript files
-Glob(pattern="**/*.js")
-
-# Find all TypeScript files in src/
-Glob(pattern="src/**/*.ts")
-
-# Find all test files
-Glob(pattern="**/*.test.js")
-Glob(pattern="**/*_test.py")
-
-# Find configuration files
-Glob(pattern="**/config.*")
-Glob(pattern="**/*.config.js")
-```
-
-### When to Use Serena MCP
-
-✅ **Use Serena for:**
-- Finding specific functions/classes/methods by name in LARGE code files (>2000 lines)
-- Understanding code architecture and structure
-- Reading code intelligently (only what you need from large files)
-- Finding all references to a symbol
-- Navigating code hierarchies
-- Understanding relationships between code entities
-
-❌ **Don't use Serena for:**
-- Searching text in non-code files (use Grep tool)
-- Finding arbitrary string patterns (use Grep tool)
-- Searching logs or configuration files (use Grep tool)
-- Small code files (just read them)
-
-**Optimal Serena Workflow:**
-```
-# 1. Start with overview - understand file structure
-mcp__serena__get_symbols_overview(relative_path="path/to/LargeFile.kt")
-
-# 2. Find specific symbols - no need to read entire file
-mcp__serena__find_symbol(
-    name_path="GameEngine/initGame",
-    relative_path="engine/GameEngine.kt",
-    include_body=True
-)
-
-# 3. Find references - understand usage
-mcp__serena__find_referencing_symbols(
-    name_path="GameEngine",
-    relative_path="engine/GameEngine.kt"
-)
-
-# 4. Pattern search only when symbol search won't work
-mcp__serena__search_for_pattern(
-    substring_pattern="TODO.*critical",
-    restrict_search_to_code_files=True
-)
-```
-
-### Optimized Workflows
-
-**Workflow 1: Finding and Modifying Content**
-```
-# Step 1: IMPORTANT - Read the file first (Edit requires prior Read)
-Read(file_path="src/utils.js")
-
-# Step 2: Parallel search to find ALL relevant locations (multiple tool calls in one message)
-Grep(pattern="old_function_name", path="src/", output_mode="content", -n=true, -C=5)
-Grep(pattern="OldClassName", path="src/", output_mode="content", -n=true, -C=5)
-Grep(pattern="import.*OldModule", path="src/", output_mode="content", -n=true)
-
-# Step 3: For medium/large files, read specific sections
-Read(file_path="src/app.js", offset=340, limit=60)
-
-# Step 4: Edit (ONLY after reading the file)
-Edit(file_path="src/utils.js", old_string="...", new_string="...")
-
-# Step 5: Verify change
-Grep(pattern="new_function_name", path="src/utils.js", output_mode="content", -n=true, -C=3)
-```
-
-**Workflow 2: Understanding New Codebase**
-```
-# RECOMMENDED: Use Task tool with Explore agent for open-ended exploration
-Task(subagent_type="Explore", prompt="Explore the codebase structure and identify key components")
-
-# Or manually:
-# Step 1: Find files by pattern
-Glob(pattern="src/**/*.js")
-Glob(pattern="src/**/*.ts")
-
-# Step 2: Parallel search for key patterns (multiple tool calls in one message)
-Grep(pattern="export.*function", path="src/", output_mode="files_with_matches")
-Grep(pattern="export.*class", path="src/", output_mode="files_with_matches")
-Grep(pattern="import.*react", path="src/", output_mode="files_with_matches")
-
-# Step 3: Based on file sizes, choose strategy
-# Small files (<500 lines): Read them all
-Read(file_path="src/config.js")
-Read(file_path="src/utils.js")
-
-# Large files: Use Serena
-mcp__serena__get_symbols_overview(relative_path="src/large-app.js")
-```
-
-**Workflow 3: Debugging**
-```
-# Step 1: Parallel search for error message + related code (multiple tool calls)
-Grep(pattern="Error: Connection failed", output_mode="content", -n=true, -C=10)
-Grep(pattern="function.*connect", path="src/", output_mode="content", -n=true, -C=5)
-Grep(pattern="handleConnectionError", path="src/", output_mode="content", -n=true, -C=5)
-
-# Step 2: Read relevant sections (based on line numbers from Grep)
-Read(file_path="src/database.js", offset=450, limit=80)
-
-# Step 3: Check related functions (if in large file, use Serena)
-mcp__serena__find_symbol(
-    name_path="connect",
-    relative_path="src/database.js",
+    relative_path="src/large-app.js",
     include_body=True
 )
 ```
 
-**Workflow 4: Refactoring**
+### Parallel Reads for Multiple Files
+
+**Read multiple files in ONE message:**
+
 ```
-# Step 1: Find all occurrences (parallel search - multiple tool calls)
-Grep(pattern="oldFunctionName", path="src/", output_mode="content", -n=true, -C=3)
-Grep(pattern="class.*uses.*oldFunction", path="src/", output_mode="content", -n=true)
-Grep(pattern="import.*oldFunction", path="src/", output_mode="content", -n=true)
-
-# Step 2: For large files, use Serena to find references
-mcp__serena__find_referencing_symbols(
-    name_path="oldFunctionName",
-    relative_path="src/main.js"
-)
-
-# Step 3: Read files BEFORE editing (required by Edit tool)
+# DO THIS - parallel reads in single message
 Read(file_path="src/file1.js")
 Read(file_path="src/file2.js")
-
-# Step 4: Edit all files
-Edit(file_path="src/file1.js", old_string="...", new_string="...")
-Edit(file_path="src/file2.js", old_string="...", new_string="...")
-
-# Step 5: Verify all changes
-Grep(pattern="newFunctionName", path="src/", output_mode="content", -n=true)
-Grep(pattern="oldFunctionName", path="src/", output_mode="content", -n=true)  # Should return nothing
-```
-
-### Line-Based Navigation Technique
-
-**Use Grep line numbers to navigate files efficiently:**
-
-```
-# Step 1: Get line numbers for multiple sections at once
-Grep(pattern="^## ", path="CLAUDE.md", output_mode="content", -n=true)
-# Returns all markdown headers with line numbers:
-# 1:## Section 1
-# 150:## Section 2
-# 420:## Section 3
-# 800:## Section 4
-
-# Step 2: Read specific sections based on line numbers
-Read(file_path="CLAUDE.md", offset=420, limit=100)  # Read section 3
-Read(file_path="CLAUDE.md", offset=800, limit=100)  # Read section 4
-
-# Step 3: After editing, verify with Grep
-Grep(pattern="pattern_you_added", path="CLAUDE.md", output_mode="content", -n=true, -C=2)
+Read(file_path="src/file3.js")
+# All execute in parallel!
 ```
 
 ### Anti-Patterns to AVOID
-
-❌ **Bad:** Reading entire large files when you only need a section
-```
-# DON'T DO THIS for 5000-line files
-Read(file_path="src/massive-app.js")  # Wastes tokens
-```
-
-✅ **Good:** Use Grep to find section, then read that section
-```
-# DO THIS
-Grep(pattern="function needThisFunction", path="src/massive-app.js", output_mode="content", -n=true)
-# Returns line 2847
-Read(file_path="src/massive-app.js", offset=2845, limit=50)
-```
-
-❌ **Bad:** Sequential searches (multiple messages)
-```
-# DON'T DO THIS - 3 separate messages
-Message 1: Grep(pattern="pattern1", ...)
-Message 2: Grep(pattern="pattern2", ...)
-Message 3: Grep(pattern="pattern3", ...)
-```
-
-✅ **Good:** Parallel searches (multiple tool calls in ONE message)
-```
-# DO THIS - one message with multiple tool calls (true parallel)
-Grep(pattern="pattern1", path="src/", output_mode="content", -n=true)
-Grep(pattern="pattern2", path="src/", output_mode="content", -n=true)
-Grep(pattern="pattern3", path="src/", output_mode="content", -n=true)
-```
-
-❌ **Bad:** Using bash grep/rg commands
-```
-# DON'T DO THIS - use built-in tools instead
-rg -n "pattern" file.js
-grep "pattern" file.js
-```
-
-✅ **Good:** Use the built-in Grep tool
-```
-# DO THIS
-Grep(pattern="pattern", path="file.js", output_mode="content", -n=true, -C=5)
-```
-
-❌ **Bad:** Searching small files before reading
-```
-# DON'T DO THIS for files <500 lines
-Grep(pattern="function", path="small-file.js", ...)
-Read(file_path="small-file.js", offset=43, limit=20)
-# Two steps when one would do!
-```
-
-✅ **Good:** Just read small files directly
-```
-# DO THIS
-Read(file_path="small-file.js")  # One step!
-```
-
-❌ **Bad:** Using Grep without line numbers or context
-```
-# DON'T DO THIS - missing context
-Grep(pattern="pattern", path="file.js")
-# Default output_mode is "files_with_matches" - no content!
-```
-
-✅ **Good:** Always use output_mode="content" with -n and -C for maximum info
-```
-# DO THIS
-Grep(pattern="pattern", path="file.js", output_mode="content", -n=true, -C=5)
-# Get line numbers AND context in one shot
-```
-
-❌ **Bad:** Using Serena on small/medium code files
-```
-# DON'T DO THIS for 300-line files
-mcp__serena__get_symbols_overview(relative_path="small.js")
-mcp__serena__find_symbol(name_path="func", relative_path="small.js")
-# Two steps when one would do!
-```
-
-✅ **Good:** Just read small files, use Grep for medium files
-```
-# DO THIS
-Read(file_path="small.js")  # <500 lines: just read it
-
-# Or for medium files
-Grep(pattern="function func", path="medium.js", output_mode="content", -n=true, -C=10)
-Read(file_path="medium.js", offset=240, limit=60)  # Read relevant section
-```
 
 ❌ **Bad:** Editing without reading first
 ```
