@@ -633,22 +633,27 @@ Edit(file_path="src/utils.js", old_string="oldFunctionName", new_string="newFunc
 | Open-ended exploration | Explore agent | `Task(subagent_type="Explore")` | ⚡️⚡️⚡️ BEST |
 
 **Golden Rules for Maximum Efficiency:**
-1. 🚀 **Use built-in tools** - Grep, Glob, Read instead of bash commands
-2. 🚀 **Parallel tool calls** - multiple Grep/Read calls in one message
-3. 🚀 **Just read small files** - don't overthink files <500 lines
-4. 🚀 **Strategic reads for medium files** - use Grep line numbers + Read with offset
-5. 🚀 **Serena for large code files** - semantic understanding beats line-by-line
-6. 🚀 **Read before Edit** - Edit tool requires prior Read
-7. 🚀 **Task/Explore for exploration** - use specialized agent for open-ended codebase exploration
+1. ⚡️ **SPEED IS #1** - every action should minimize round-trips and maximize work done
+2. ⚡️ **BULK EDITS MANDATORY** - NEVER make sequential edits when one bulk edit would work
+3. ⚡️ **USE replace_all** - when renaming across a file, use `replace_all=true`
+4. 🚀 **Use built-in tools** - Grep, Glob, Read instead of bash commands
+5. 🚀 **Parallel tool calls** - multiple Grep/Read calls in one message
+6. 🚀 **Just read small files** - don't overthink files <500 lines
+7. 🚀 **Strategic reads for medium files** - use Grep line numbers + Read with offset
+8. 🚀 **Serena for large code files** - semantic understanding beats line-by-line
+9. 🚀 **Read before Edit** - Edit tool requires prior Read
+10. 🚀 **Task/Explore for exploration** - use specialized agent for open-ended codebase exploration
 
 **Efficiency Hierarchy (Best to Worst):**
-1. Read small file directly (1 step)
-2. Task(Explore) for open-ended exploration (1 step, delegated)
-3. Grep + Read section (2 steps)
-4. Serena symbolic search (2-3 steps)
-5. Sequential tool calls across messages (SLOW - avoid!)
+1. Single bulk Edit that captures all changes (1 step) ⚡️ FASTEST
+2. Read small file directly (1 step)
+3. Task(Explore) for open-ended exploration (1 step, delegated)
+4. Grep + Read section (2 steps)
+5. Serena symbolic search (2-3 steps)
+6. Sequential Edit calls to same file (FORBIDDEN - combine into bulk edit!)
+7. Sequential tool calls across messages (SLOW - avoid!)
 
-**Remember: Balance efficiency with token usage. Get accurate answers without wasting context.**
+**Remember: SPEED FIRST. Combine edits. Minimize round-trips. The user's time is valuable.**
 
 ---
 ## 📚 OPTIMAL TOOL USAGE - CONTEXT7 MCP
