@@ -319,24 +319,28 @@ agents_content_exists() {
     return 1  # Content doesn't exist
 }
 
-# Function to add CLAUDE.md content to target directory
-add_claude_docs() {
-    local target_file="$PROJECT_DIR/CLAUDE.md"
-    local source_file="$ADD_MCPS_DIR/CLAUDE.md"
-    
-    if claude_content_exists "$target_file"; then
-        log_info "CLAUDE.md content already exists in project, skipping..."
+# Function to add TOOL_USAGE.md content to target directory
+add_tool_usage_docs() {
+    local target_dir="$PROJECT_DIR/docs"
+    local target_file="$target_dir/TOOL_USAGE.md"
+    local source_file="$ADD_MCPS_DIR/TOOL_USAGE.md"
+
+    if tool_usage_content_exists "$target_file"; then
+        log_info "TOOL_USAGE.md content already exists in project, skipping..."
         return 0
     fi
-    
+
     if [[ ! -f "$source_file" ]]; then
-        log_warning "Source CLAUDE.md not found at $source_file, skipping..."
+        log_warning "Source TOOL_USAGE.md not found at $source_file, skipping..."
         log_warning "Run install.sh to set up the add-mcps system"
         return 0  # Non-fatal warning
     fi
-    
-    log_info "Adding CLAUDE.md content to project..."
-    
+
+    # Create docs directory if it doesn't exist
+    mkdir -p "$target_dir"
+
+    log_info "Adding TOOL_USAGE.md to project docs/..."
+
     # If target file exists, append a separator and then the content
     if [[ -f "$target_file" ]]; then
         echo "" >> "$target_file"
@@ -345,13 +349,13 @@ add_claude_docs() {
         echo "<!-- Content below added by add-mcps script -->" >> "$target_file"
         echo "" >> "$target_file"
         cat "$source_file" >> "$target_file"
-        log_success "Appended CLAUDE.md content to existing file"
+        log_success "Appended TOOL_USAGE.md content to existing file"
     else
         # Create new file with content
         cp "$source_file" "$target_file"
-        log_success "Created CLAUDE.md in project"
+        log_success "Created docs/TOOL_USAGE.md in project"
     fi
-    
+
     return 0
 }
 
