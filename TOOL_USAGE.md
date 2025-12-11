@@ -1,6 +1,43 @@
 ## 🔍 OPTIMAL TOOL USAGE - BUILT-IN TOOLS, GLOB, GREP & SERENA MCP
 
+---
+## ⚡️ SPEED IS THE #1 PRIORITY ⚡️
+
+**Every action you take should be optimized for SPEED. The user's time is valuable. Minimize round-trips, maximize parallelism, and NEVER do in multiple steps what can be done in one.**
+
+### 🚨 CRITICAL: BULK EDITS ARE MANDATORY
+
+**If multiple edits can be combined into a SINGLE Edit call, they MUST be combined.**
+
+```
+❌ FORBIDDEN - Sequential edits to same file:
+Edit(file_path="file.js", old_string="foo", new_string="bar")
+Edit(file_path="file.js", old_string="baz", new_string="qux")
+Edit(file_path="file.js", old_string="old", new_string="new")
+# THREE round-trips when ONE would do!
+
+✅ REQUIRED - Single bulk edit:
+Edit(file_path="file.js", old_string="foo\n...\nbaz\n...\nold", new_string="bar\n...\nqux\n...\nnew")
+# ONE edit that captures all changes!
+
+✅ ALSO GOOD - Use replace_all for repetitive changes:
+Edit(file_path="file.js", old_string="oldName", new_string="newName", replace_all=true)
+# Changes ALL occurrences in one operation!
+```
+
+**Rules for Bulk Edits:**
+1. **ALWAYS** look for opportunities to combine multiple edits into one
+2. **ALWAYS** use `replace_all=true` when renaming variables/functions across a file
+3. **NEVER** make sequential Edit calls to the same file when a single edit would work
+4. **Plan your edits** - read the file, identify ALL changes needed, then make ONE comprehensive edit
+5. **Larger old_string = better** - include more context to make a single edit that covers multiple changes
+
+---
+
 ### Core Principles - EFFICIENCY FIRST
+- **🚀 SPEED IS EVERYTHING** - minimize tool calls, maximize work per call
+- **🚀 BULK EDITS MANDATORY** - if edits can be combined, they MUST be combined into one Edit call
+- **🚀 PARALLEL EXECUTION** - make multiple tool calls in a single message for true parallelism
 - **USE BUILT-IN TOOLS** - Claude Code has optimized Grep, Glob, and Read tools that should be preferred
 - **NEVER use bash grep/rg/find/cat** - use the built-in Grep, Glob, and Read tools instead
 - **Built-in Grep tool is optimized** - has proper permissions, supports regex, context lines, and multiple output modes
