@@ -100,12 +100,12 @@ while [[ $# -gt 0 ]]; do
             echo ""
             echo "Examples:"
             echo "  $0                                   # Install all servers (skip docs/agents by default)"
-            echo "  $0 --add-agents --add-claude        # Install servers + copy docs and agents"
+            echo "  $0 --add-agents --add-tools         # Install servers + copy docs and agents"
             echo "  $0 --only exa,context7              # Install only exa and context7"
             echo "  $0 --disable serena,playwright      # Install all except serena and playwright"
             echo "  $0 --diagnose                       # Check and fix system issues"
             echo "  $0 --force                          # Force reinstall all servers"
-            echo "  $0 --force --add-claude             # Force reinstall + add CLAUDE.md"
+            echo "  $0 --force --add-tools              # Force reinstall + add TOOL_USAGE.md"
             exit 0
             ;;
         *)
