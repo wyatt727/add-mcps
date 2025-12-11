@@ -1878,9 +1878,11 @@ The Plan agent will return:
 
 ## 🎨 FRONTEND-DESIGN SKILL - High-Quality UI Development
 
+🚨 **CRITICAL: ALWAYS invoke the frontend-design skill when making ANY changes to websites, UIs, or visual components!**
+
 ### When to Use the Frontend-Design Skill
 
-The **frontend-design skill** creates distinctive, production-grade frontend interfaces with high design quality. Use it when working on any visual/UI components.
+The **frontend-design skill** creates distinctive, production-grade frontend interfaces with high design quality. **You MUST invoke this skill when the user asks you to create or modify any website, UI, or visual component.**
 
 ✅ **Use the frontend-design skill for:**
 - Building new web components, pages, or applications
