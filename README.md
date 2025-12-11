@@ -76,7 +76,7 @@ Options:
   --diagnose                   # Run diagnostics and fix issues
   --force                      # Force reinstallation of all servers
   --add-agents                 # Copy agents and AGENTS.md to project
-  --add-claude                 # Append CLAUDE.md content to project
+  --add-tools                  # Copy TOOL_USAGE.md to project docs/
 ```
 
 ## Examples
