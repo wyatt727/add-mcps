@@ -1622,7 +1622,7 @@ mcp__playwright__browser_fill_form(fields=[...])
    └─> Handle pagination, forms, dynamic content
 3. Use Context7 if scraping requires specific library knowledge
    └─> E.g., parsing formats, handling authentication
-4. Use rg to find where to integrate scraped data
+4. Use Grep to find where to integrate scraped data
    └─> Locate data models, API endpoints
 5. Use Serena to understand data flow architecture
    └─> Plan how scraped data fits into system
