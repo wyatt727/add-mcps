@@ -153,7 +153,7 @@ Edit(file_path="src/utils.js", old_string="oldFunctionName", new_string="newFunc
 
 **Golden Rules for Maximum Efficiency:**
 1. ⚡️ **SPEED IS #1** - every action should minimize round-trips and maximize work done
-2. ⚡️ **BULK EDITS MANDATORY** - NEVER make sequential edits when one bulk edit would work
+2. ⚡️ **PREFER BULK EDITS** - combine edits when possible, make each edit substantial
 3. ⚡️ **USE replace_all** - when renaming across a file, use `replace_all=true`
 4. 🚀 **Use built-in tools** - Grep, Glob, Read instead of bash commands
 5. 🚀 **Parallel tool calls** - multiple Grep/Read calls in one message
