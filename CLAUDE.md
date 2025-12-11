@@ -1701,7 +1701,7 @@ mcp__playwright__browser_fill_form(fields=[...])
 ### Updated Decision Tree
 
 **Need to find text in YOUR codebase?**
-→ Use **rg** (ripgrep)
+→ Use **Grep** (built-in tool)
 
 **Need to understand YOUR code structure?**
 → Use **Serena MCP**
