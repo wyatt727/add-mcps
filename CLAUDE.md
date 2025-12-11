@@ -1580,7 +1580,7 @@ mcp__playwright__browser_wait_for(text="Welcome")
 ```
 
 **Pattern 3: Multi-Tab Workflow**
-```bash
+```
 # 1. Start with first page
 mcp__playwright__browser_navigate(url="https://example.com/page1")
 mcp__playwright__browser_snapshot()
