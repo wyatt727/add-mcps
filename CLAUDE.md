@@ -1227,7 +1227,7 @@ mcp__playwright__browser_evaluate(
 
 **🎯 RECOMMENDED: Use built-in network monitoring first!**
 
-```bash
+```
 # Method 1: Simple - Use Playwright's built-in network monitoring (NO SETUP REQUIRED)
 # This captures ALL requests automatically - just call after interactions
 mcp__playwright__browser_network_requests()
