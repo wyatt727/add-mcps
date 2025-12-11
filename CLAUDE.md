@@ -1830,9 +1830,11 @@ mcp__playwright__browser_fill_form(fields=[...])
 
 ## 📋 PLAN AGENT - Strategic Planning for Complex Tasks
 
+🚨 **CRITICAL: ALWAYS use the Plan agent before implementing complex features or multi-file changes!**
+
 ### When to Use the Plan Agent
 
-The **Plan agent** (`subagent_type="Plan"`) is a software architect agent designed for planning implementation strategies. Use it when you need to think through how to implement something before writing code.
+The **Plan agent** (`subagent_type="Plan"`) is a software architect agent designed for planning implementation strategies. **You MUST use this agent when the user asks you to plan something or when facing non-trivial implementation tasks.**
 
 ✅ **Use the Plan agent for:**
 - Designing implementation plans for new features
