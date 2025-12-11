@@ -447,32 +447,35 @@ Read(file_path="src/file.js")  # Read first
 Edit(file_path="src/file.js", old_string="...", new_string="...")  # Then edit
 ```
 
-### Summary: Speed-First Approach
+### Summary: Efficiency-First Approach
 
 **Decision Matrix (Choose Based on File Size):**
 
-| File Size | Strategy | Tool | Speed |
-|-----------|----------|------|-------|
-| < 500 lines | Just read entire file | `Read` | ⚡️⚡️⚡️ FASTEST |
-| 500-2000 lines | rg + targeted reads | `rg -n -C`, `Read` | ⚡️⚡️ FAST |
-| > 2000 lines (code) | Semantic search | `Serena` | ⚡️ FAST |
-| > 2000 lines (non-code) | rg + targeted reads | `rg -n -C`, `Read` | ⚡️⚡️ FAST |
+| File Size | Strategy | Tool | Efficiency |
+|-----------|----------|------|------------|
+| < 500 lines | Just read entire file | `Read` | ⚡️⚡️⚡️ BEST |
+| 500-2000 lines | Grep + targeted reads | `Grep`, `Read` | ⚡️⚡️ GOOD |
+| > 2000 lines (code) | Semantic search | `Serena` | ⚡️ GOOD |
+| > 2000 lines (non-code) | Grep + targeted reads | `Grep`, `Read` | ⚡️⚡️ GOOD |
+| Open-ended exploration | Explore agent | `Task(subagent_type="Explore")` | ⚡️⚡️⚡️ BEST |
 
-**Golden Rules for Maximum Speed:**
-1. 🚀 **Parallel search everything** - multiple rg commands in one message
-2. 🚀 **Always use rg -n -C X** - get line numbers + context simultaneously
+**Golden Rules for Maximum Efficiency:**
+1. 🚀 **Use built-in tools** - Grep, Glob, Read instead of bash commands
+2. 🚀 **Parallel tool calls** - multiple Grep/Read calls in one message
 3. 🚀 **Just read small files** - don't overthink files <500 lines
-4. 🚀 **Strategic reads for medium files** - use rg line numbers + Read with offset
+4. 🚀 **Strategic reads for medium files** - use Grep line numbers + Read with offset
 5. 🚀 **Serena for large code files** - semantic understanding beats line-by-line
-6. 🚀 **Verify with rg after edits** - quick confirmation changes worked
+6. 🚀 **Read before Edit** - Edit tool requires prior Read
+7. 🚀 **Task/Explore for exploration** - use specialized agent for open-ended codebase exploration
 
-**Speed Hierarchy (Fastest to Slowest):**
+**Efficiency Hierarchy (Best to Worst):**
 1. Read small file directly (1 step)
-2. rg -n -C + Read section (2 steps)
-3. Serena symbolic search (2-3 steps)
-4. Sequential rg searches (SLOW - avoid!)
+2. Task(Explore) for open-ended exploration (1 step, delegated)
+3. Grep + Read section (2 steps)
+4. Serena symbolic search (2-3 steps)
+5. Sequential tool calls across messages (SLOW - avoid!)
 
-**Remember: SPEED > Token efficiency. Get the answer fast, even if it uses more tokens!**
+**Remember: Balance efficiency with token usage. Get accurate answers without wasting context.**
 
 ---
 ## 📚 OPTIMAL TOOL USAGE - CONTEXT7 MCP
