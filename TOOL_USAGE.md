@@ -169,8 +169,9 @@ Edit(file_path="src/utils.js", old_string="oldFunctionName", new_string="newFunc
 3. Task(Explore) for open-ended exploration (1 step, delegated)
 4. Grep + Read section (2 steps)
 5. Serena symbolic search (2-3 steps)
-6. Sequential Edit calls to same file (FORBIDDEN - combine into bulk edit!)
-7. Sequential tool calls across messages (SLOW - avoid!)
+6. Multiple substantial Edit calls (acceptable when edits can't be combined)
+7. Many tiny Edit calls (inefficient - prefer larger edits with more content)
+8. Sequential tool calls across messages (SLOW - avoid!)
 
 **Remember: SPEED FIRST. Combine edits. Minimize round-trips. The user's time is valuable.**
 
