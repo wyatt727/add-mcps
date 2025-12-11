@@ -48,8 +48,8 @@ Running `install.sh` creates `~/.add-mcps/` with:
 When run from a project directory, `add-mcps`:
 
 1. **Installs MCP servers** to `.claude/settings.local.json`
-2. **Optionally copies documentation** (use `--add-agents` and/or `--add-claude` flags):
-   - Appends `CLAUDE.md` content to project's `CLAUDE.md` (if not already present)
+2. **Optionally copies documentation** (use `--add-agents` and/or `--add-tools` flags):
+   - Copies `TOOL_USAGE.md` to project's `docs/TOOL_USAGE.md` (if not already present)
    - Copies `AGENTS.md` to project root (if not already present)
    - Copies agent files to `.claude/agents/` (if not already present)
 
