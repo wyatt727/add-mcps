@@ -597,6 +597,6 @@ echo "  • Exa server uses the provided API key"
 echo "  • Run '$0 --diagnose' to troubleshoot issues"
 echo "  • Set EXA_API_KEY environment variable for custom API key"
 echo "  • Use --force to reinstall servers that are already installed"
-if [[ "$ADD_AGENTS" == true ]] || [[ "$ADD_CLAUDE" == true ]]; then
+if [[ "$ADD_AGENTS" == true ]] || [[ "$ADD_TOOLS" == true ]]; then
     echo "  • Documentation and agents have been copied to this project"
 fi
