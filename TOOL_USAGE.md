@@ -653,9 +653,10 @@ if data:
 
 ### MCP Server Configuration
 
-Configure your MCP server to connect to the remote debugging endpoint:
+**Edit `~/.claude.json`** (global config) or `.claude/settings.local.json` (project-specific) to add the Playwright MCP server with CDP endpoint:
 
 ```json
+// Add to ~/.claude.json under "mcpServers":
 {
   "mcpServers": {
     "playwright": {
@@ -670,6 +671,8 @@ Configure your MCP server to connect to the remote debugging endpoint:
   }
 }
 ```
+
+**Note:** The `--cdp-endpoint` flag connects to your already-running Chrome/Chromium instance with remote debugging enabled (launched in the previous step). This preserves browser state across Claude Code sessions.
 
 ### When to Use Playwright MCP
 ✅ **Use Playwright for:**
