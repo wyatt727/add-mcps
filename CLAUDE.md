@@ -1675,7 +1675,7 @@ mcp__playwright__browser_fill_form(fields=[...])
 4. Use Playwright browser_console_messages
    └─> Check for JavaScript errors
 5. Document issues found
-6. Use rg to find form validation code
+6. Use Grep to find form validation code
    └─> Locate where validation happens
 7. Use Serena to understand validation logic
    └─> Read validation functions
