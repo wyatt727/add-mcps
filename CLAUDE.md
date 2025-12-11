@@ -1737,7 +1737,7 @@ Layer 6: Implementation
   └─> Edit tool (targeted changes to YOUR code)
 
 Layer 5: Internal Understanding
-  └─> Serena MCP (YOUR code structure) + rg (text discovery)
+  └─> Serena MCP (YOUR code structure) + Grep/Glob (text & file discovery)
 
 Layer 4: External Knowledge
   └─> Context7 MCP (official docs) + Exa MCP (research & examples)
@@ -1755,8 +1755,10 @@ Layer 1: User Intent
 ### Context-Aware Tool Selection
 
 **Internal (Your Codebase):**
-- rg → Text search
-- Serena → Code structure
+- Grep → Text search (content patterns)
+- Glob → File search (filename patterns)
+- Serena → Code structure (semantic understanding)
+- Read → File reading
 - Edit → Modification
 
 **External Knowledge (Documentation & Research):**
@@ -1767,4 +1769,4 @@ Layer 1: User Intent
 - Playwright → Browser automation, scraping, testing
 
 **Golden Rule:**
-Know your boundaries: Internal (rg/Serena) for your code, External Knowledge (Context7/Exa) for learning, External Interaction (Playwright) for websites. Choose the right tool for the right domain.
+Know your boundaries: Internal (Grep/Glob/Serena) for your code, External Knowledge (Context7/Exa) for learning, External Interaction (Playwright) for websites. Choose the right tool for the right domain.
