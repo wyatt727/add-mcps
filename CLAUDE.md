@@ -201,9 +201,9 @@ Glob(pattern="**/*.config.js")
 - Understanding relationships between code entities
 
 ❌ **Don't use Serena for:**
-- Searching text in non-code files (use rg)
-- Finding arbitrary string patterns (use rg)
-- Searching logs or configuration files (use rg)
+- Searching text in non-code files (use Grep tool)
+- Finding arbitrary string patterns (use Grep tool)
+- Searching logs or configuration files (use Grep tool)
 - Small code files (just read them)
 
 **Optimal Serena Workflow:**
