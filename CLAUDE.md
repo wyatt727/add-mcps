@@ -1047,7 +1047,7 @@ After initial reconnaissance, use Playwright to interact with applications and d
 
 #### Step 1: Navigate and Comprehensive Metadata Extraction
 
-```bash
+```
 # Navigate to target
 mcp__playwright__browser_navigate(url="https://target.com")
 
