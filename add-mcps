@@ -112,6 +112,7 @@ while [[ $# -gt 0 ]]; do
             echo "  $0 --diagnose                       # Check and fix system issues"
             echo "  $0 --force                          # Force reinstall all servers"
             echo "  $0 --force --add-tools              # Force reinstall + add TOOL_USAGE.md"
+            echo "  $0 --uninstall                      # Remove all MCP servers, docs, and config"
             exit 0
             ;;
         *)
