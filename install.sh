@@ -41,12 +41,12 @@ echo ""
 mkdir -p "$INSTALL_DIR"
 mkdir -p "$INSTALL_DIR/agents"
 
-# Copy CLAUDE.md
-if [[ -f "$SCRIPT_DIR/CLAUDE.md" ]]; then
-    cp "$SCRIPT_DIR/CLAUDE.md" "$INSTALL_DIR/CLAUDE.md"
-    log_success "Copied CLAUDE.md"
+# Copy TOOL_USAGE.md
+if [[ -f "$SCRIPT_DIR/TOOL_USAGE.md" ]]; then
+    cp "$SCRIPT_DIR/TOOL_USAGE.md" "$INSTALL_DIR/TOOL_USAGE.md"
+    log_success "Copied TOOL_USAGE.md"
 else
-    log_warning "CLAUDE.md not found in $SCRIPT_DIR"
+    log_warning "TOOL_USAGE.md not found in $SCRIPT_DIR"
 fi
 
 # Copy AGENTS.md
