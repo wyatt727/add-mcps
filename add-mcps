@@ -520,15 +520,15 @@ if should_install_server "server-memory"; then
 fi
 
 # Copy documentation and agents (if flags are specified)
-if [[ "$ADD_AGENTS" == true ]] || [[ "$ADD_CLAUDE" == true ]]; then
+if [[ "$ADD_AGENTS" == true ]] || [[ "$ADD_TOOLS" == true ]]; then
     echo "===================================="
     echo "Copying Documentation and Agents..."
     echo "===================================="
     echo ""
 
-    # Add CLAUDE.md content if --add-claude is specified
-    if [[ "$ADD_CLAUDE" == true ]]; then
-        add_claude_docs
+    # Add TOOL_USAGE.md if --add-tools is specified
+    if [[ "$ADD_TOOLS" == true ]]; then
+        add_tool_usage_docs
         echo ""
     fi
 
