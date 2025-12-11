@@ -1354,7 +1354,7 @@ mcp__playwright__browser_evaluate(
 
 #### Step 5: JavaScript Route Discovery (SPA)
 
-```bash
+```
 # Discover client-side routes for Single Page Applications
 mcp__playwright__browser_evaluate(
     function="() => {
