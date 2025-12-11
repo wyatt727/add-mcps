@@ -50,7 +50,7 @@ ONLY_SERVERS=""
 DIAGNOSE_MODE=false
 FORCE_REINSTALL=false
 ADD_AGENTS=false
-ADD_CLAUDE=false
+ADD_TOOLS=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
