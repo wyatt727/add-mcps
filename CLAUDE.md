@@ -1657,7 +1657,7 @@ mcp__playwright__browser_fill_form(fields=[...])
    └─> Understand JavaScript implementation details
 4. Use Context7 for libraries used in those examples
    └─> Get official documentation for tools you'll use
-5. Use rg to find where to add feature in your code
+5. Use Grep to find where to add feature in your code
    └─> Locate appropriate files
 6. Use Serena to understand integration points
    └─> Plan architecture changes
