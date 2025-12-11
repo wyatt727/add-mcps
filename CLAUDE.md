@@ -99,8 +99,7 @@ Task(subagent_type="Explore", prompt="Are there similar patterns to [X] that sho
 ```
 Task(
     subagent_type="Explore",      # Required: specifies the Explore agent
-    prompt="your question here",   # Required: what to investigate
-    model="haiku"                  # Optional: use haiku for faster/cheaper exploration
+    prompt="your question here"    # Required: what to investigate
 )
 ```
 
