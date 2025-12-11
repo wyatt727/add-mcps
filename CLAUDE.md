@@ -111,60 +111,83 @@ Grep(pattern="function", path="file3.js", output_mode="content")
 **Note:** Using `&&` in bash runs commands SEQUENTIALLY, not in parallel.
 True parallel execution requires multiple tool calls in a single message.
 
-### When to Use ripgrep (rg)
+### When to Use Built-in Grep Tool
 
-✅ **Use ripgrep (bash rg command) for:**
-- **ANY text-based search** - it's faster and better than internal search
+✅ **Use the built-in Grep tool for:**
+- **ANY text-based search** - it's optimized and has proper permissions
 - Finding literal strings/text patterns across files
 - Searching in non-code files (logs, config, markdown, JSON)
 - Discovering where error messages or specific text appears
 - Finding TODOs, FIXMEs, or comment patterns
 - Quick text-based discovery when you DON'T need semantic understanding
-- **Getting line numbers + context immediately** with `-n -C X`
+- **Getting line numbers + context** with `-n` and `-C` parameters
 - **Initial discovery before reading files** - but just read small files directly!
 
-❌ **Don't use ripgrep for:**
+❌ **Don't use Grep for:**
 - Finding classes, functions, or methods in large code files (use Serena instead)
 - Understanding code structure in large files (use Serena instead)
 - Reading code to understand implementation in large files (use Serena instead)
+- Finding files by name pattern (use Glob instead)
 
 ⚠️ **IMPORTANT:**
-- ripgrep (rg) is SUPERIOR to any internal search function
-- **USE bash `rg` commands directly** - faster and more powerful
-- NEVER use grep - only use rg
-- It's optimized, has proper permissions, and is significantly faster
+- **ALWAYS use the built-in Grep tool** - NOT bash `grep` or `rg` commands
+- The Grep tool has proper permissions and is optimized for Claude Code
+- Use Glob tool for finding files by pattern (not Grep with `-l`)
 
-**Essential rg Speed Patterns:**
-```bash
+**Essential Grep Tool Patterns:**
+```
 # Pattern 1: Line numbers + context (MOST IMPORTANT)
-rg -n -C 5 "error_handler"
+Grep(pattern="error_handler", output_mode="content", -n=true, -C=5)
 # See: line numbers, 5 lines before, 5 lines after
 
-# Pattern 2: Find and show only filenames (for counting/listing)
-rg -l "pattern"
+# Pattern 2: Find files containing pattern
+Grep(pattern="pattern", output_mode="files_with_matches")
 # Just the file names
 
 # Pattern 3: Count matches per file
-rg -c "pattern"
+Grep(pattern="pattern", output_mode="count")
 # Shows count per file
 
 # Pattern 4: File type filtering
-rg "pattern" -t js        # Only JavaScript
-rg "pattern" -t py        # Only Python
-rg "pattern" -t md        # Only Markdown
+Grep(pattern="pattern", type="js")        # Only JavaScript
+Grep(pattern="pattern", type="py")        # Only Python
+Grep(pattern="pattern", glob="*.md")      # Only Markdown
 
 # Pattern 5: Case insensitive
-rg -i "pattern"
+Grep(pattern="pattern", -i=true)
 
-# Pattern 6: Show line numbers only (for Read offset)
-rg -n "pattern" file.md | head -1
-# Get first match line number for Read
+# Pattern 6: Limit results (for large result sets)
+Grep(pattern="pattern", path="file.md", head_limit=1)
+# Get first match only
 
-# Pattern 7: Multiple patterns (OR search)
-rg "pattern1|pattern2|pattern3"
+# Pattern 7: Multiple patterns (OR search using regex)
+Grep(pattern="pattern1|pattern2|pattern3")
 
 # Pattern 8: Directory-specific search
-rg "pattern" src/components/
+Grep(pattern="pattern", path="src/components/")
+```
+
+### When to Use Built-in Glob Tool
+
+✅ **Use the built-in Glob tool for:**
+- Finding files by name patterns (e.g., `**/*.js`, `src/**/*.ts`)
+- Listing files in directories with pattern matching
+- Finding configuration files, test files, etc.
+
+```
+# Find all JavaScript files
+Glob(pattern="**/*.js")
+
+# Find all TypeScript files in src/
+Glob(pattern="src/**/*.ts")
+
+# Find all test files
+Glob(pattern="**/*.test.js")
+Glob(pattern="**/*_test.py")
+
+# Find configuration files
+Glob(pattern="**/config.*")
+Glob(pattern="**/*.config.js")
 ```
 
 ### When to Use Serena MCP
