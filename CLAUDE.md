@@ -1163,7 +1163,7 @@ mcp__playwright__browser_evaluate(
 
 #### Step 3: Form Discovery
 
-```bash
+```
 # Discover ALL forms (including hidden and dynamically added)
 mcp__playwright__browser_evaluate(
     function="() => {
