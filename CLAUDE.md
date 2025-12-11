@@ -769,7 +769,7 @@ mcp__exa__company_research(
 - ✅ **DO** use `subpageTarget` to limit company research scope
 
 **Optimal Exa Usage:**
-```bash
+```
 # Web search - real-time semantic search
 mcp__exa__web_search_exa(
     query="best practices for LLM prompt engineering 2025",
@@ -824,7 +824,7 @@ mcp__exa__linkedin_search(
 ### Exa Anti-Patterns to AVOID
 
 ❌ **Bad:** Using Exa for official library docs
-```bash
+```
 # DON'T DO THIS - Context7 is better for this
 mcp__exa__web_search_exa(
     query="Next.js app router documentation"
@@ -832,7 +832,7 @@ mcp__exa__web_search_exa(
 ```
 
 ✅ **Good:** Use Context7 for official docs, Exa for examples
-```bash
+```
 # DO THIS - right tool for the job
 # Official docs → Context7
 mcp__context7__get-library-docs(context7CompatibleLibraryID="/vercel/next.js")
