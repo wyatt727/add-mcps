@@ -1606,7 +1606,7 @@ mcp__playwright__browser_fill_form(fields=[...])
    └─> Understand industry best practices
 5. Use Context7 for library capabilities you'll need
    └─> Verify you have the tools to implement
-6. Use rg to find related code in your project
+6. Use Grep to find related code in your project
    └─> Discover existing similar implementations
 7. Use Serena to understand your architecture
    └─> Plan integration points
