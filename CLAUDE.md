@@ -484,7 +484,8 @@ Edit(file_path="src/file.js", old_string="...", new_string="...")  # Then edit
 - **Context7 prevents API hallucinations** - provides up-to-date, version-specific library documentation
 - **ALWAYS resolve library ID first** - use `resolve-library-id` before `get-library-docs` (unless user provides exact `/org/project` format)
 - **Use topic parameter to narrow scope** - fetch only relevant documentation sections
-- **Control token usage strategically** - adjust `tokens` parameter based on need (default: 5000)
+- **Use mode parameter strategically** - `mode="code"` for API/examples, `mode="info"` for conceptual guides
+- **Use page parameter for pagination** - `page=1` to `page=10` for navigating large doc sets
 - **Perfect for library-specific questions** - "How do I use X in library Y?" type queries
 - **Complements internal code tools** - external knowledge layer for official documentation
 
