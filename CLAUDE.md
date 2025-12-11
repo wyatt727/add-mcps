@@ -1560,7 +1560,7 @@ mcp__playwright__browser_console_messages(level="error")
 ```
 
 **Pattern 2: Form Filling (Efficient)**
-```bash
+```
 # 1. Navigate and snapshot
 mcp__playwright__browser_navigate(url="https://example.com/signup")
 mcp__playwright__browser_snapshot()
