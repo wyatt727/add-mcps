@@ -10,13 +10,13 @@
 **If multiple edits can be combined into a SINGLE Edit call, they MUST be combined.**
 
 ```
-❌ FORBIDDEN - Sequential edits to same file:
+⚠️ INEFFICIENT - Small sequential edits:
 Edit(file_path="file.js", old_string="foo", new_string="bar")
 Edit(file_path="file.js", old_string="baz", new_string="qux")
 Edit(file_path="file.js", old_string="old", new_string="new")
-# THREE round-trips when ONE would do!
+# THREE round-trips - prefer combining when possible!
 
-✅ REQUIRED - Single bulk edit:
+✅ PREFERRED - Single bulk edit with more content:
 Edit(file_path="file.js", old_string="foo\n...\nbaz\n...\nold", new_string="bar\n...\nqux\n...\nnew")
 # ONE edit that captures all changes!
 
@@ -25,12 +25,12 @@ Edit(file_path="file.js", old_string="oldName", new_string="newName", replace_al
 # Changes ALL occurrences in one operation!
 ```
 
-**Rules for Bulk Edits:**
-1. **ALWAYS** look for opportunities to combine multiple edits into one
+**Guidelines for Better Edits:**
+1. **PREFER** combining multiple edits into one when possible
 2. **ALWAYS** use `replace_all=true` when renaming variables/functions across a file
-3. **NEVER** make sequential Edit calls to the same file when a single edit would work
-4. **Plan your edits** - read the file, identify ALL changes needed, then make ONE comprehensive edit
-5. **Larger old_string = better** - include more context to make a single edit that covers multiple changes
+3. **MAKE EACH EDIT SUBSTANTIAL** - include more content per edit rather than many tiny edits
+4. **Plan your edits** - read the file, identify changes, then make comprehensive edits
+5. **Larger old_string = better** - include more context to capture multiple changes in one edit
 
 ---
 
