@@ -12,16 +12,17 @@
 
 ### File Size Decision Tree (Speed-Optimized)
 
-**🚀 CRITICAL: Choose strategy based on file size for MAXIMUM SPEED**
+**🚀 CRITICAL: Choose strategy based on file size for MAXIMUM EFFICIENCY**
 
-```bash
-# Step 1: Check file size quickly
-wc -l filename.md  # Get line count
-
-# Decision tree:
+```
+# Decision tree (Read tool shows line numbers, so you'll know file size after first read):
 # < 500 lines    → Just Read the entire file (FASTEST)
-# 500-2000 lines → rg -n -C 5 to find sections, then Read with offset/limit
-# > 2000 lines   → Use Serena for code files, or rg + targeted reads for non-code
+# 500-2000 lines → Grep to find sections, then Read with offset/limit
+# > 2000 lines   → Use Serena for code files, or Grep + targeted reads for non-code
+
+# For finding files by pattern:
+Glob(pattern="**/*.js")           # Find all JS files
+Glob(pattern="src/**/*.ts")       # Find TS files in src/
 ```
 
 **Small Files (<500 lines): Just Read Them**
