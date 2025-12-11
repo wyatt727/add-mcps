@@ -566,12 +566,12 @@ else
 fi
 echo ""
 # Show documentation and agents status
-if [[ "$ADD_AGENTS" == true ]] || [[ "$ADD_CLAUDE" == true ]]; then
+if [[ "$ADD_AGENTS" == true ]] || [[ "$ADD_TOOLS" == true ]]; then
     log_info "Documentation and agents:"
 
-    if [[ "$ADD_CLAUDE" == true ]]; then
-        if [[ -f "$PROJECT_DIR/CLAUDE.md" ]]; then
-            echo -e "  ${GREEN}✓${NC} CLAUDE.md"
+    if [[ "$ADD_TOOLS" == true ]]; then
+        if [[ -f "$PROJECT_DIR/docs/TOOL_USAGE.md" ]]; then
+            echo -e "  ${GREEN}✓${NC} docs/TOOL_USAGE.md"
         fi
     fi
 
