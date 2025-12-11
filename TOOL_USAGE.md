@@ -653,24 +653,30 @@ if data:
 
 ### MCP Server Configuration
 
-**Edit `~/.claude.json`** (global config) or `.claude/settings.local.json` (project-specific) to add the Playwright MCP server with CDP endpoint:
+**Edit `~/.claude.json`** to add the Playwright MCP server with CDP endpoint. The config is stored under your project's path:
 
 ```json
-// Add to ~/.claude.json under "mcpServers":
+// In ~/.claude.json, find your project under "projects" and add to its "mcpServers":
 {
-  "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@playwright/mcp@latest",
-        "--cdp-endpoint",
-        "ws://localhost:9222"
-      ]
+  "projects": {
+    "/path/to/your/project": {
+      "mcpServers": {
+        "playwright": {
+          "command": "npx",
+          "args": [
+            "-y",
+            "@playwright/mcp@latest",
+            "--cdp-endpoint",
+            "ws://localhost:9222"
+          ]
+        }
+      }
     }
   }
 }
 ```
+
+**Alternative:** Add to `.claude/settings.local.json` in your project directory (same `mcpServers` structure, without the `projects` wrapper).
 
 **Note:** The `--cdp-endpoint` flag connects to your already-running Chrome/Chromium instance with remote debugging enabled (launched in the previous step). This preserves browser state across Claude Code sessions.
 
