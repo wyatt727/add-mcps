@@ -676,8 +676,6 @@ if data:
 }
 ```
 
-**Alternative:** Add to `.claude/settings.local.json` in your project directory (same `mcpServers` structure, without the `projects` wrapper).
-
 **Note:** The `--cdp-endpoint` flag connects to your already-running Chrome/Chromium instance with remote debugging enabled (launched in the previous step). This preserves browser state across Claude Code sessions.
 
 ### When to Use Playwright MCP
